@@ -14,11 +14,13 @@ gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem 'cancancan'
-gem 'devise'
+gem 'aasm', '~> 5.0', '>= 5.0.6'
+gem 'audited', '~> 4.9'
+gem 'cancancan', '~> 3.0', '>= 3.0.1'
+gem 'devise', '~> 4.7', '>= 4.7.1'
 gem 'haml-rails', '~> 2.0'
 gem 'materialize-sass', '~> 1.0.0'
-gem 'react-rails'
+gem 'react-rails', '~> 2.6'
 gem 'webpacker', '~> 4.0'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'

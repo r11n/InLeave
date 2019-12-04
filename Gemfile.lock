@@ -1,6 +1,8 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    aasm (5.0.6)
+      concurrent-ruby (~> 1.0)
     actioncable (6.0.1)
       actionpack (= 6.0.1)
       nio4r (~> 2.0)
@@ -58,6 +60,8 @@ GEM
       zeitwerk (~> 2.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
+    audited (4.9.0)
+      activerecord (>= 4.2, < 6.1)
     autoprefixer-rails (9.7.3)
       execjs
     babel-source (5.8.35)
@@ -253,11 +257,13 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aasm (~> 5.0, >= 5.0.6)
+  audited (~> 4.9)
   bootsnap (>= 1.4.2)
   byebug
-  cancancan
+  cancancan (~> 3.0, >= 3.0.1)
   capybara (>= 2.15)
-  devise
+  devise (~> 4.7, >= 4.7.1)
   dotenv-rails
   haml-rails (~> 2.0)
   jbuilder (~> 2.7)
@@ -266,7 +272,7 @@ DEPENDENCIES
   pg (>= 0.18, < 2.0)
   puma (~> 3.11)
   rails (~> 6.0.0)
-  react-rails
+  react-rails (~> 2.6)
   sass-rails (~> 5)
   selenium-webdriver
   spring
