@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class UserRoleTest < ActiveSupport::TestCase
+class LeaveTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

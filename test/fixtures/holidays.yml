@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyText
+  from: 2019-12-04
+  end: 2019-12-04
+  effective_days: 1
+  multiple: false
+
+two:
+  name: MyString
+  description: MyText
+  from: 2019-12-04
+  end: 2019-12-04
+  effective_days: 1
+  multiple: false

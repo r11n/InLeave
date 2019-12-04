@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  leave_type: one
+  reason: MyText
+  from: 2019-12-04
+  end: 2019-12-04
+  effective_days: 1
+
+two:
+  user: two
+  leave_type: two
+  reason: MyText
+  from: 2019-12-04
+  end: 2019-12-04
+  effective_days: 1
