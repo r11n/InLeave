@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import {logout} from '../utils/calls';
 
 const styles = theme => ({
   menuButton: {
@@ -20,7 +21,7 @@ const styles = theme => ({
 
 class Header extends React.Component {
   render() {
-    const {classes} = this.props;
+    const {classes, user} = this.props;
     return (
       <AppBar position="static">
           <Toolbar>
@@ -30,7 +31,8 @@ class Header extends React.Component {
           <Typography variant="h6" className={classes.title}>
               InTrack
           </Typography>
-          <Button color="inherit">Login</Button>
+          {!user && <Button color="inherit">Login</Button>}
+          {user && <Button color="inherit" onClick={() => {logout()}}>Logout</Button>}
           </Toolbar>
       </AppBar>
     )
