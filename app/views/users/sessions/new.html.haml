@@ -1,0 +1,23 @@
+.row.valign-wrapper
+  .col.s12.m6.offset-m3.valign
+    .card.z-depth-2
+      .card-content
+        %h1.card-title Log in
+        = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+          = render "users/shared/error_messages", resource: resource
+          .row
+            .input-field.col.s12
+              = f.email_field :email, autofocus: true, autocomplete: 'email'
+              = f.label :email
+            .input-field.col.s12
+              = f.label :password
+              = f.password_field :password, autocomplete: "current-password"
+            - if devise_mapping.rememberable?
+              %p.col.s12
+                %label
+                  = f.check_box :remember_me
+                  %span remember me
+            .col.s12.text-center
+              = f.submit "Login", class: 'waves-effect waves-light btn'
+      .card-action
+        = render 'users/shared/links'

@@ -1,0 +1,15 @@
+.row.valign-wrapper
+  .col.s12.m6.offset-m3.valign
+    .card.z-depth-2
+      .card-content
+        %h1.card-title Resend confirmation instructions
+        = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
+          = render "user/shared/error_messages", resource: resource
+          .row
+            .input-field.col.s12
+              = f.label :email
+              = f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email)
+            .col.s12.text-center
+              = f.submit "Resend confirmation instructions", class: 'waves-effect waves-light btn'
+      .card-action
+        = render "users/shared/links"

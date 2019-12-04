@@ -1,0 +1,54 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+$spaceamounts: (5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 75, 100); // Adjust this to include the pixel amounts you need.
+$sides: (top, bottom, left, right); // Leave this variable alone
+
+@each $space in $spaceamounts {
+    @each $side in $sides {
+        .m#{str-slice($side, 0, 1)}-#{$space} {
+            margin-#{$side}: #{$space}px !important;
+        }
+
+        .p#{str-slice($side, 0, 1)}-#{$space} {
+            padding-#{$side}: #{$space}px !important;
+        }
+    }
+}
+@import "materialize/components/color-variables";
+// $primary-color: color("blue", "lighten-2") !default;
+// $secondary-color: color("yellow", "base") !default;
+$secondary-color: color("amber", "darken-3") !default;
+$primary-color: color("indigo", "base") !default;
+// $ternary-color: color('blue', 'lighten-3') !default;
+@import 'materialize';
+.container-fluid {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    .row {
+        margin: 0 auto;
+    }
+}
+.mat-bg {
+    background: $secondary-color url(/assets/mat00.jpg) no-repeat center;
+    background-size: cover;
+}
+.card-panel {
+    padding: 10px 15px;
+}

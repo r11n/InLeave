@@ -1,0 +1,18 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{name: 'viewport', content: 'width=device-width, initial-scale=1.0'}/
+    %title InTrack
+    = csrf_meta_tags
+    = csp_meta_tag
+    %link{:href => "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap", :rel => "stylesheet"}/
+    %link{:href => "https://fonts.googleapis.com/icon?family=Material+Icons", :rel => "stylesheet"}/
+    = javascript_pack_tag 'application'
+  %body{:style => "margin: 0"}
+    %div{:style => "flex-grow: 1;"}
+      = react_component('layouts/Header', {user: user_signed_in? ? current_user : nil})
+      - if notice || alert
+        = react_component('Flash', {notice: notice, alert: alert})
+      = yield
+      = react_component('layouts/Footer')
