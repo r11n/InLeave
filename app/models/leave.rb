@@ -2,6 +2,7 @@
 
 class Leave < ApplicationRecord
   include AASM
+  attr_accessor :days
   audited
   belongs_to :user
   belongs_to :leave_type
@@ -39,6 +40,13 @@ class Leave < ApplicationRecord
     auto_approve unless user
   end
 
+  def days
+    return if days
+    self.end = from unless self.end
+    range = (from..self.end).to_a
+    @days = range.reject { |d| d.saturday? || d.sunday? || holiday?(d) }
+  end
+
   private
 
   def before_three_days?
@@ -46,6 +54,6 @@ class Leave < ApplicationRecord
   end
 
   def not_responded?
-    (created_at - Time.now) >= 7.days
+    (created_at - Time.zone.now) >= 7.days
   end
 end

@@ -9,10 +9,10 @@
     %link{:href => "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap", :rel => "stylesheet"}/
     %link{:href => "https://fonts.googleapis.com/icon?family=Material+Icons", :rel => "stylesheet"}/
     = javascript_pack_tag 'application'
+    = stylesheet_link_tag 'full-calendar', media: 'all', 'data-turbolinks-track': 'reload'
   %body{:style => "margin: 0"}
     %div{:style => "flex-grow: 1;"}
       = react_component('layouts/Header', {user: user_signed_in? ? current_user : nil})
       - if notice || alert
         = react_component('Flash', {notice: notice, alert: alert})
       = yield
-      = react_component('layouts/Footer')

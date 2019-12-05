@@ -2,7 +2,7 @@ const USER_ROUTE = '/users/';
 const LOGOUT = `${USER_ROUTE}sign_out`;
 const LOGIN = `${USER_ROUTE}sign_in`;
 
-export default class XhrMaker {
+class XhrMaker {
     trigger(url, method = 'GET', params = null, headers = null) {
         return new Promise((resolve, reject) => {
             let xhr = new XMLHttpRequest();

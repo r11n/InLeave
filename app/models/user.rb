@@ -9,8 +9,13 @@ class User < ApplicationRecord
   has_one :role, through: :user_role
   has_one :reporting
   has_one(
-    :reporting_manager, class_name: 'User',
+    :manager, class_name: 'User',
                         through: :reporting,
                         source: :manager
   )
+
+  def name
+    @name = "#{first_name} #{last_name}"
+    @name = @name.blank? ? email : @name
+  end
 end
