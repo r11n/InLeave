@@ -9,10 +9,10 @@
           .row
             .input-field.col.s12
               = f.label :password, "New password"
+              = f.password_field :password, autofocus: true, autocomplete: "new-password"
               - if @minimum_password_length
                 %span.helper-text
                   (#{@minimum_password_length} characters minimum)
-              = f.password_field :password, autofocus: true, autocomplete: "new-password"
             .input-field.col.s12
               = f.label :password_confirmation, "Confirm new password"
               = f.password_field :password_confirmation, autocomplete: "new-password"
