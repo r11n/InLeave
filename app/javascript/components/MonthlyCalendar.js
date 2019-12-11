@@ -81,7 +81,7 @@ export default class MonthlyCalendar extends React.Component {
                 <CssBaseline />
                 <Container fixed>
                     <Grid container spacing={3}>
-                        <Grid item sm={8}>
+                        <Grid item md={8} sm={12}>
                             <Paper style={{padding: '15px'}}>
                                 <FullCalendar
                                     defaultView="dayGridMonth"
@@ -111,6 +111,7 @@ export default class MonthlyCalendar extends React.Component {
                                         start: '2019-01-01',
                                         end: '2019-12-31'
                                     }}
+                                    resi
                                     />
                             </Paper>
                         </Grid>

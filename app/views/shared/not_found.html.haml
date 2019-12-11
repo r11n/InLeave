@@ -1,0 +1,8 @@
+.row.valign-wrapper
+  .col.s12.m8.offset-m2.valign
+    .card.z-depth-2
+      .card-content
+        = render '/shared/404'
+        %h1.center-align.card-title Page not Found
+        %p.center-align
+          = link_to(mat_icon('home'), root_path, class: 'btn-floating btn-large pulse')

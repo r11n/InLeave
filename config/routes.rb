@@ -9,5 +9,10 @@ Rails.application.routes.draw do
     confirmations: 'users/confirmations',
     mailer: 'users/mailer'
   }
+  resources :users, only: [:index]
+  if Rails.env.production?
+    get '/404', to: 'errors#not_found'
+    get '/500', to: 'errors#internal_error'
+  end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

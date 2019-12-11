@@ -84,5 +84,3 @@ test:
 production:
   <<: *default
   database: inTrack_production
-  username: inTrack
-  password: <%= ENV['INTRACK_DATABASE_PASSWORD'] %>
