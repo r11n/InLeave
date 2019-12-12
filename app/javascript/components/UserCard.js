@@ -5,7 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import { IconButton } from '@material-ui/core';
+import { IconButton, Chip, Avatar } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UserForm from './UserForm';
 const styles = theme => ({
@@ -32,7 +32,8 @@ class UserCard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            edit: false
+            edit: false,
+            user: props.user
         }
         this.toggleEdit = this.toggleEdit.bind(this);
     }
@@ -41,8 +42,23 @@ class UserCard extends React.Component {
         this.setState({edit: !this.state.edit});
     }
 
+    updateUser = (user) => {
+        this.setState({
+            user: {
+                ...this.state.user,
+                ...user
+            }
+        })
+    }
+
+    avatarMaker = (name) => {
+        const first = name[0].toUpperCase();
+        return (<Avatar>{first}</Avatar>)
+    }
+
     render() {
-        const {classes, user} = this.props;
+        const {classes} = this.props;
+        const {user} = this.state;
         const bull = <span className={classes.bullet}>•</span>;
         const {edit} = this.state
         return (
@@ -55,7 +71,11 @@ class UserCard extends React.Component {
                         {user.first_name} {user.last_name}
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
-                        {user.role_name}
+                        <Chip
+                            color="primary"
+                            avatar={this.avatarMaker(user.role_name)}
+                            label={user.role_name}
+                        />
                     </Typography>
                 </CardContent>
                 <CardActions>
@@ -64,7 +84,7 @@ class UserCard extends React.Component {
                         <DeleteIcon fontSize="default"/>
                     </IconButton>
                 </CardActions>
-                {edit && <UserForm user={user} open={edit} close={this.toggleEdit}/>}
+                {edit && <UserForm user={user} open={edit} success={this.updateUser} close={this.toggleEdit}/>}
             </Card>
         )
     }

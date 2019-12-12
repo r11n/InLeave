@@ -3,7 +3,7 @@
 class Users::SessionsController < Devise::SessionsController
   layout 'blank'
   skip_before_action(
-    :verify_authenticity_token, only: [:destroy], if: -> { request.xhr? }
+    :verify_authenticity_token, only: [:destroy]
   )
   # before_action :configure_sign_in_params, only: [:create]
 

@@ -9,7 +9,13 @@ Rails.application.routes.draw do
     confirmations: 'users/confirmations',
     mailer: 'users/mailer'
   }
-  resources :users, only: [:index]
+  resources :users, only: %i[index update create]
+
+  resources :roles, only: %i[index update create] do
+    collection do
+      get :for_form
+    end
+  end
   if Rails.env.production?
     get '/404', to: 'errors#not_found'
     get '/500', to: 'errors#internal_error'
