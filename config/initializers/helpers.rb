@@ -11,3 +11,21 @@ Time.class_eval do
     hour >= 9 && hour <= 19
   end
 end
+
+ActionController::Parameters.class_eval do
+  define_method('extend_with_password') do
+    password = [*('a'..'z'), *(0..9)].sample(10).join
+    self[:password] = self[:password_confirmation] = password
+    self
+  end
+
+  define_method('extend_default_role') do
+    role_attrs = self[:user_role_attributes]
+    return if role_attrs.present? && role_attrs[:role_id].to_i.positive?
+
+    sample_role = Role.find_by(name: %w[employee Employee EMPLOYEE'])
+    self[:user_role_attributes] = {} if role_attrs.blank?
+    self[:user_role_attributes][:role_id] = sample_role.id
+    self
+  end
+end

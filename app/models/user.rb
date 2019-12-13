@@ -23,9 +23,21 @@ class User < ApplicationRecord
     allow_destroy: true
   )
   validates :email, presence: true, uniqueness: { case_sensitive: false }
-  validates :first_name, :last_name, presence: true, on: :update
+  validates :first_name, :last_name, presence: true
+  validate :has_role?
+
   def name
     @name = "#{first_name} #{last_name}"
     @name = @name.presence || email
+  end
+
+  def extended_save(params)
+    save && update(params)
+  end
+
+  private
+
+  def has_role?
+    errors.add(:user_role, "Can't be blank") if user_role.blank?
   end
 end

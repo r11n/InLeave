@@ -13,6 +13,8 @@
   %body{:style => "margin: 0"}
     %div{:style => "flex-grow: 1;"}
       = react_component('layouts/Header', {user: user_signed_in? ? current_user : nil})
-      - if notice || alert
-        = react_component('Flash', {notice: notice, alert: alert})
+      - if notice
+        = react_component('Flash', {notice: notice})
+      - if alert
+        = react_component('Flash', {alert: alert})
       = yield

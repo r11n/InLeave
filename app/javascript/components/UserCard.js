@@ -70,7 +70,7 @@ class UserCard extends React.Component {
                     <Typography variant="h5" component="h2">
                         {user.first_name} {user.last_name}
                     </Typography>
-                    <Typography className={classes.pos} color="textSecondary">
+                    <Typography className={classes.pos} color="textSecondary" component="div">
                         <Chip
                             color="primary"
                             avatar={this.avatarMaker(user.role_name)}

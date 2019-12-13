@@ -194,7 +194,7 @@ class UserForm extends React.Component {
                                     <Select
                                         labelId="user-role-label"
                                         id="user-role-select"
-                                        defaultValue={user.role_id}
+                                        defaultValue={user.role_id || ''}
                                         onChange={this.propChange('role_id')}
                                     >
                                         {

@@ -2,6 +2,7 @@ const USER_ROUTE = '/users/';
 const LOGOUT = `${USER_ROUTE}sign_out`;
 const LOGIN = `${USER_ROUTE}sign_in`;
 const SHOW = id => `${USER_ROUTE}${id}`;
+const USER_CREATE = `${USER_ROUTE}save`;
 const ROLE_ROUTE = '/roles/';
 const FORM_ROLES = `${ROLE_ROUTE}for_form`;
 
@@ -72,9 +73,13 @@ export const user_update = (id, props) => {
 }
 
 export const user_create = (props) => {
-    return call.trigger(USER_ROUTE, 'POST', props, csrf_token_hash())
+    return call.trigger(USER_CREATE, 'POST', props, csrf_token_hash())
 }
 
 export const form_roles = () => {
     return call.trigger(FORM_ROLES)
-} 
+}
+
+export const fetch_users = () => {
+    return call.trigger('/users.json')
+}

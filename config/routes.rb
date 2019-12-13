@@ -9,7 +9,11 @@ Rails.application.routes.draw do
     confirmations: 'users/confirmations',
     mailer: 'users/mailer'
   }
-  resources :users, only: %i[index update create]
+  resources :users, only: %i[index update] do
+    collection do
+      post :save
+    end
+  end
 
   resources :roles, only: %i[index update create] do
     collection do

@@ -1,19 +1,18 @@
 - if resource.errors.any?
-  #error_explanation.collection.with-header{:role => "alert"}
-    %h5.collection-header.flow-text
-      = I18n.t("errors.messages.not_saved",                 |
-        count: resource.errors.count,                       |
-        resource: resource.class.model_name.human.downcase) |
-    - resource.errors.full_messages.each do |message|
-      %l.collection-item= message
+  #error_explanation{:role => "alert"}
+    = react_component('Flash',                                |
+      {                                                       |
+        alert: I18n.t("errors.messages.not_saved",            |
+          count: resource.errors.count,                       |
+          resource: resource.class.model_name.human.downcase  |
+        )                                                     |
+      }                                                       |
+      )                                                       |
+    = react_component('Flash', alert: flash_message_make(resource.errors))
 - if notice
   .row
-    .card-panel.green.col.s12.white-text
-      %p.pt-10.pb-10
-        = notice
+    = react_component('Flash', notice: notice)
 - if alert
   .row
-    .card-panel.red.darken-3.col.s12.white-text
-      %p.pt-10.pb-10
-        = alert
+    = react_component('Flash', alert: alert)
 

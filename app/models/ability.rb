@@ -2,7 +2,7 @@
 
 class Ability
   include CanCan::Ability
-
+  attr_accessor :user
   def initialize(user)
     @user = user
     send(@user.role.name.downcase) if user.present? && user.role.present?
@@ -17,6 +17,10 @@ class Ability
       :manage,
       [User, Leave, Holiday, Reporting, LeaveType, Accumulation, Forward]
     )
+  end
+
+  def dummy
+    cannot :view, :all
   end
 
   def manager

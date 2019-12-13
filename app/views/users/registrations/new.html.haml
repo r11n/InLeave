@@ -6,9 +6,17 @@
         = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
           = render "users/shared/error_messages", resource: resource
           .row
+            = f.fields_for :user_role do |r|
+              = r.hidden_field :role_id, value: r.object.role_id.presence || @role.id
+            .input-field.col.s12.m6
+              = f.label :first_name
+              = f.text_field :first_name, autofocus: true, autocomplete: "name"
+            .input-field.col.s12.m6
+              = f.label :last_name
+              = f.text_field :last_name, autocomplete: "name"
             .input-field.col.s12
               = f.label :email
-              = f.email_field :email, autofocus: true, autocomplete: "email"
+              = f.email_field :email, autocomplete: "email"
             .input-field.col.s12
               = f.label :password
               = f.password_field :password, autocomplete: "new-password"
