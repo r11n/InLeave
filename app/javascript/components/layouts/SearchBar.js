@@ -118,7 +118,7 @@ const resultStyles = makeStyles(theme => ({
 function renderRow(props) {
     const {index, secondary_text, text, link } = props;
     return (
-        <ListItem button component='a' key={`sresult-${index}`} onMouseDown={(event) => {window.location = link}}>
+        <ListItem button component='a' key={`sresult-${index}`} onMouseDown={(event) => {if(!!link){window.location = link}}}>
             <ListItemText
                 color=""
                 primary={

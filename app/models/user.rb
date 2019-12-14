@@ -47,6 +47,10 @@ class User < ApplicationRecord
     role.present? && role.name.downcase == 'employee'
   end
 
+  def manager?
+    role.present? && role.name.downcase == 'manager'
+  end
+
   private
 
   def role?

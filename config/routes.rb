@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  
   root 'dashboard#index'
   post '/search', to: 'application#search'
   devise_for :users, controllers: {
@@ -13,6 +14,13 @@ Rails.application.routes.draw do
   resources :users, only: %i[index update show] do
     collection do
       post :save
+    end
+  end
+
+  resources :leaves, only: %i[index show new] do
+    collection do
+      get :team
+      get :requests
     end
   end
 
