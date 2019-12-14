@@ -5,7 +5,7 @@ const SHOW = id => `${USER_ROUTE}${id}`;
 const USER_CREATE = `${USER_ROUTE}save`;
 const ROLE_ROUTE = '/roles/';
 const FORM_ROLES = `${ROLE_ROUTE}for_form`;
-
+const SEARCH = '/search';
 class XhrMaker {
     trigger(url, method = 'GET', params = null, headers = null) {
         return new Promise((resolve, reject) => {
@@ -82,4 +82,8 @@ export const form_roles = () => {
 
 export const fetch_users = () => {
     return call.trigger('/users.json')
+}
+
+export const search = (props) => {
+    return call.trigger(SEARCH, 'POST',props, csrf_token_hash())
 }

@@ -32,7 +32,7 @@ class UserCard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            edit: false,
+            edit: props.active,
             user: props.user
         }
         this.toggleEdit = this.toggleEdit.bind(this);
@@ -62,7 +62,7 @@ class UserCard extends React.Component {
         const bull = <span className={classes.bullet}>•</span>;
         const {edit} = this.state
         return (
-            <Card className={classes.card}>
+            <Card className={classes.card} id={`in-track-user-${this.props.user.id}`}>
                 <CardContent>
                     <Typography className={classes.title} color="textSecondary" gutterBottom>
                         {user.email}

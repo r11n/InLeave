@@ -1,2 +1,2 @@
-= react_component('UsersDashboard', {users: @users.present? ? extend_with_roles(@users) : []})
+= react_component('UsersDashboard', {users: @users.present? ? extend_with_roles(@users) : [], active_id: params[:id]})
     

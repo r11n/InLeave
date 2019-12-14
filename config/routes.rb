@@ -2,6 +2,7 @@
 
 Rails.application.routes.draw do
   root 'dashboard#index'
+  post '/search', to: 'application#search'
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations',
@@ -9,7 +10,7 @@ Rails.application.routes.draw do
     confirmations: 'users/confirmations',
     mailer: 'users/mailer'
   }
-  resources :users, only: %i[index update] do
+  resources :users, only: %i[index update show] do
     collection do
       post :save
     end

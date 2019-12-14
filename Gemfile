@@ -20,6 +20,7 @@ gem 'cancancan', '~> 3.0', '>= 3.0.1'
 gem 'devise', '~> 4.7', '>= 4.7.1'
 gem 'haml-rails', '~> 2.0'
 gem 'materialize-sass', '~> 1.0.0'
+gem 'ransack'
 gem 'react-rails', '~> 2.6'
 gem 'rubocop-rails'
 gem 'sendgrid-ruby', '~> 6.0'
@@ -31,6 +32,7 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.0'
+gem 'redis-namespace', '~> 1.7'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -49,11 +51,11 @@ end
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen', '>= 3.0.5', '< 3.2'
-  gem 'web-console', '>= 3.3.0'
+  gem 'meta_request'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'meta_request'
+  gem 'web-console', '>= 3.3.0'
 end
 
 group :test do

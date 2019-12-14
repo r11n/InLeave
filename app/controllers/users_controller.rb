@@ -10,6 +10,11 @@ class UsersController < ApplicationController
     end
   end
 
+  def show
+    @users = User.includes(:role).all
+    render :index
+  end
+
   def save
     extended_params = user_params.extend_with_password
     @user = User.new(extended_params)

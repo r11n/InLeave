@@ -1,12 +1,17 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  include Searcher
   before_action :authenticate_user!
   # rescues
   rescue_from CanCan::AccessDenied, with: -> { deny_access }
 
   def authenticated_user
     current_user || 'InTrack System'
+  end
+
+  def search
+    render json: params[:query].present? ? all_search(params[:query]) : [], status: :ok
   end
 
   private

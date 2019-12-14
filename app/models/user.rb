@@ -24,7 +24,7 @@ class User < ApplicationRecord
   )
   validates :email, presence: true, uniqueness: { case_sensitive: false }
   validates :first_name, :last_name, presence: true
-  validate :has_role?
+  validate :role?
 
   def name
     @name = "#{first_name} #{last_name}"
@@ -35,9 +35,21 @@ class User < ApplicationRecord
     save && update(params)
   end
 
+  def hr?
+    role.present? && role.name.downcase == 'hr'
+  end
+
+  def admin?
+    role.present? && role.name.downcase == 'admin'
+  end
+
+  def employee?
+    role.present? && role.name.downcase == 'employee'
+  end
+
   private
 
-  def has_role?
+  def role?
     errors.add(:user_role, "Can't be blank") if user_role.blank?
   end
 end
