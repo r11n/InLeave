@@ -24,6 +24,14 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :reportings, except: %i[destroy] do
+    collection do
+      get :requests
+    end
+  end
+
+  resources :holidays, only: %i[index update show]
+
   resources :roles, only: %i[index update create] do
     collection do
       get :for_form

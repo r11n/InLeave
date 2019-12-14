@@ -32,7 +32,7 @@ class UserCard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            edit: props.active,
+            edit: (props.user.role_name!=='admin' && props.active),
             user: props.user
         }
         this.toggleEdit = this.toggleEdit.bind(this);
@@ -79,10 +79,7 @@ class UserCard extends React.Component {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button size="small" color="primary" onClick={this.toggleEdit}>Edit</Button>
-                    <IconButton aria-label="delete" color="secondary" size="small" className={classes.action}>
-                        <DeleteIcon fontSize="default"/>
-                    </IconButton>
+                    <Button disabled={user.role_name === 'admin'} size="small" color="primary" onClick={this.toggleEdit}>Edit</Button>
                 </CardActions>
                 {edit && <UserForm user={user} open={edit} success={this.updateUser} close={this.toggleEdit}/>}
             </Card>

@@ -12,7 +12,7 @@
     = stylesheet_link_tag 'full-calendar', media: 'all', 'data-turbolinks-track': 'reload'
   %body{:style => "margin: 0"}
     %div{:style => "flex-grow: 1;"}
-      = react_component('layouts/Header', {user: user_signed_in? ? current_user : nil})
+      = react_component('layouts/Header', {user: user_signed_in? ? current_user : nil, menus: menus})
       - if notice
         = react_component('Flash', {notice: notice})
       - if alert

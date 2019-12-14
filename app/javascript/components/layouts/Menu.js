@@ -11,6 +11,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import IconButton from '@material-ui/core/IconButton';
+import LabelIcon from '@material-ui/icons/Label';
 
 
 const useStyles = makeStyles(theme => ({
@@ -29,9 +30,27 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+function prepareLists(list) {
+    let prevIndex = 0;
+    const slices = []
+    list.forEach((item, index) => {
+        if (!!item.divider) {
+            slices.push(list.slice(prevIndex, index));
+            prevIndex = index + 1
+        }
+    });
+    slices.push(list.slice(prevIndex));
+    return slices;
+}
+
+function ListItemLink(props) {
+    return <ListItem button component="a" {...props} />;
+}
+
 export default function Menu(props) {
     const classes = useStyles();
-    const {open, close} = props
+    const {open, close, menus} = props;
+    const preped = prepareLists(menus);
     const list = () => {
         return (<div
             className={classes.list}
@@ -43,23 +62,23 @@ export default function Menu(props) {
                 </IconButton>
             </div>
             <Divider />
-            <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
-            </List>
-            <Divider />
-            <List>
-                {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
-            </List>
+            {
+                preped.map((items,ind) => (
+                    <React.Fragment key={`menu-frag-${ind}`}>
+                        <List key={`list-i${ind}`}>
+                            {
+                                items.map((item, i) => (
+                                    <ListItemLink href={item.link} key={`menu${ind}-${i}`}>
+                                        <ListItemIcon><LabelIcon /></ListItemIcon>
+                                        <ListItemText primary={item.text} />
+                                    </ListItemLink>
+                                ))
+                            }
+                        </List>
+                        {(ind < preped.length - 1) && <Divider key={'divider38' + ind} />}
+                    </React.Fragment>
+                ))
+            }
         </div>)
     }
     return (

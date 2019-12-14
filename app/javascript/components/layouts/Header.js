@@ -72,7 +72,7 @@ class Header extends React.Component {
     this.setState({menu: !this.state.menu});
   }
   render() {
-    const {classes, user} = this.props;
+    const {classes, user, menus} = this.props;
     const {menu} = this.state;
     return (
       <React.Fragment>
@@ -89,7 +89,7 @@ class Header extends React.Component {
             {user && <Button color="inherit" onClick={() => {logout()}}>Logout</Button>}
             </Toolbar>
         </AppBar>
-        {menu && <Menu open={menu} close={this.toggleMenu}/>}
+        {menu && <Menu open={menu} close={this.toggleMenu} menus={menus}/>}
       </React.Fragment>
     )
   }
