@@ -4,14 +4,14 @@ one:
   user: one
   leave_type: one
   reason: MyText
-  from: 2019-12-04
-  end: 2019-12-04
+  from_date: 2019-12-04
+  end_date: 2019-12-04
   effective_days: 1
 
 two:
   user: two
   leave_type: two
   reason: MyText
-  from: 2019-12-04
-  end: 2019-12-04
+  from_date: 2019-12-04
+  end_date: 2019-12-04
   effective_days: 1

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_11_124428) do
+ActiveRecord::Schema.define(version: 2019_12_15_060242) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,8 +58,8 @@ ActiveRecord::Schema.define(version: 2019_12_11_124428) do
   create_table "holidays", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.date "from"
-    t.date "end"
+    t.date "from_date"
+    t.date "end_date"
     t.integer "effective_days"
     t.boolean "multiple"
     t.datetime "created_at", precision: 6, null: false
@@ -80,12 +80,13 @@ ActiveRecord::Schema.define(version: 2019_12_11_124428) do
     t.bigint "user_id", null: false
     t.bigint "leave_type_id", null: false
     t.text "reason"
-    t.date "from"
-    t.date "end"
+    t.date "from_date"
+    t.date "end_date"
     t.integer "effective_days"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "state"
+    t.jsonb "day_collection"
     t.index ["leave_type_id"], name: "index_leaves_on_leave_type_id"
     t.index ["user_id"], name: "index_leaves_on_user_id"
   end

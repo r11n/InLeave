@@ -20,11 +20,11 @@ class Holiday < ApplicationRecord
 
   def self.inbound_days(date)
     multi = where(
-      arel_table[:end].gteq(date).and(arel_table[:from].lteq(date)).and(
-        arel_table[:multiple].eq(true)
-      )
+      arel_table[:end_date].gteq(date).and(
+        arel_table[:from_date].lteq(date)
+      ).and(arel_table[:multiple].eq(true))
     )
-    single = where(from: date, multiple: [nil, false])
+    single = where(from_date: date, multiple: [nil, false])
     multi.or(single)
   end
 end

@@ -17,10 +17,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :leaves, only: %i[index show new] do
+  resources :leaves, except: %i[destory edit] do
     collection do
       get :team
       get :requests
+      get :effective_days
     end
   end
 
