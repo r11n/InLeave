@@ -28,4 +28,11 @@ ActionController::Parameters.class_eval do
     self[:user_role_attributes][:role_id] = sample_role.id
     self
   end
+
+  define_method('extend_user') do |user|
+    return if user.blank?
+
+    self[:user_id] = user.id
+    self
+  end
 end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Leave < ApplicationRecord
+  HALF_DAY_STATES ||= %w[first second]
   include AASM
   audited
   belongs_to :user
@@ -10,6 +11,7 @@ class Leave < ApplicationRecord
   validate :days_uniq?
   validate :end_after_from
   validate :valid_days?
+  validate :validate_half_day
   # states
   aasm column: 'state' do
     state :applied, initial: true
@@ -52,6 +54,12 @@ class Leave < ApplicationRecord
 
   private
 
+  def validate_half_day
+    return if (half.present? && HALF_DAY_STATES.include?(half)) || half.blank?
+
+    errors.add(:half_day, 'Must be a valid half')
+  end
+
   def end_after_from
     return unless end_date && from_date
 
@@ -88,7 +96,8 @@ class Leave < ApplicationRecord
   end
 
   def save_effective_days
-    self.effective_days = days.size
+    half_day_removal = half.present? && HALF_DAY_STATES.include?(half) ? 0.5 : 0
+    self.effective_days = days.size - half_day_removal
     self.day_collection = days
   end
 

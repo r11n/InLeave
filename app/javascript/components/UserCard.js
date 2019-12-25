@@ -59,7 +59,6 @@ class UserCard extends React.Component {
     render() {
         const {classes} = this.props;
         const {user} = this.state;
-        const bull = <span className={classes.bullet}>•</span>;
         const {edit} = this.state
         return (
             <Card className={classes.card} id={`in-track-user-${this.props.user.id}`}>

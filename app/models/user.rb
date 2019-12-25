@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_one :user_role, dependent: :destroy
   has_one :role, through: :user_role
   has_one :reporting, dependent: :destroy
+  has_many :leaves, dependent: :destroy
   has_one(
     :manager, class_name: 'User',
               through: :reporting,

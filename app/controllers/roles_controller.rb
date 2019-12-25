@@ -4,7 +4,7 @@ class RolesController < ApplicationController
   end
 
   def for_form
-    @roles = Role.all.pluck(:id, :name).reject { |a| a[0].downcase == 'admin' }
+    @roles = Role.all.pluck(:id, :name).reject { |a| a[1].downcase == 'admin' }
     render json: @roles
   end
 end

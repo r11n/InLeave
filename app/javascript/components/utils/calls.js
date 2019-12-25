@@ -1,4 +1,6 @@
 const USER_ROUTE = '/users/';
+const HOLIDAY_ROUTE = '/holidays';
+const LEAVE_ROUTE = '/leaves';
 const LOGOUT = `${USER_ROUTE}sign_out`;
 const LOGIN = `${USER_ROUTE}sign_in`;
 const SHOW = id => `${USER_ROUTE}${id}`;
@@ -6,6 +8,7 @@ const USER_CREATE = `${USER_ROUTE}save`;
 const ROLE_ROUTE = '/roles/';
 const FORM_ROLES = `${ROLE_ROUTE}for_form`;
 const SEARCH = '/search';
+const LEAVE_TYPES = '/leave_types';
 class XhrMaker {
     trigger(url, method = 'GET', params = null, headers = null) {
         return new Promise((resolve, reject) => {
@@ -68,6 +71,7 @@ export const unprocessed_reload = (status) => {
     }
 }
 
+// users
 export const user_update = (id, props) => {
     return call.trigger(SHOW(id), 'PATCH',props, csrf_token_hash())
 }
@@ -84,6 +88,40 @@ export const fetch_users = () => {
     return call.trigger('/users.json')
 }
 
+export const fetch_leaves = () => {
+    return call.trigger(`${LEAVE_ROUTE}.json`)
+}
+
+export const fetch_effective_days = (props) => {
+    return call.trigger(`${LEAVE_ROUTE}/effective_days`, 'POST', props, csrf_token_hash())
+}
+
+export const leave_update = (id, props) => {
+    return call.trigger(`${LEAVE_ROUTE}/${id}`, 'PATCH', props, csrf_token_hash())
+}
+
+export const leave_create = (props) => {
+    return call.trigger(LEAVE_ROUTE, 'POST', props, csrf_token_hash())
+}
+
+export const fetch_leave_types = () => {
+    return call.trigger(`${LEAVE_TYPES}.json`, 'GET');
+}
+
+// holidays
+export const fetch_holidays = () => {
+    return call.trigger(`${HOLIDAY_ROUTE}.json`)
+}
+
+export const holiday_update = (id, props) => {
+    return call.trigger(`${HOLIDAY_ROUTE}/update`, 'PATCH', props, csrf_token_hash())
+}
+
+export const holiday_create = (props) => {
+    return call.trigger(`${HOLIDAY_ROUTE}/create`, 'POST', props, csrf_token_hash())
+}
+
+// search
 export const search = (props) => {
     return call.trigger(SEARCH, 'POST',props, csrf_token_hash())
 }

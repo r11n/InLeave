@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  
+
   root 'dashboard#index'
   post '/search', to: 'application#search'
   devise_for :users, controllers: {
@@ -21,8 +21,11 @@ Rails.application.routes.draw do
     collection do
       get :team
       get :requests
-      get :effective_days
+      post :effective_days
     end
+  end
+
+  resources :leave_types, only: %i[index] do
   end
 
   resources :reportings, except: %i[destroy] do

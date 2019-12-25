@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  FILTERED ||= %w[created_at updated_at].freeze
   def mat_icon(name)
     tag.i name, class: 'material-icons'
   end
@@ -15,5 +16,9 @@ module ApplicationHelper
     return menus.manager_menus if current_user.manager?
 
     menus.employee_menus
+  end
+
+  def attrize(objs)
+    objs.map { |k| k.attributes.except(*FILTERED) }
   end
 end
