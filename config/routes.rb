@@ -2,6 +2,7 @@
 
 Rails.application.routes.draw do
   root 'dashboard#index'
+  get '/year/:year', to: 'dashboard#index'
   post '/search', to: 'application#search'
   devise_for :users, controllers: {
     sessions: 'users/sessions',

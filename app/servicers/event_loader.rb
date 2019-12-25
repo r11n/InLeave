@@ -14,7 +14,7 @@ module EventLoader
   end
 
   def user_events
-    current_user.leaves.by_year(@year).map(&:as_event)
+    current_user.leaves.includes(:leave_type).by_year(@year).map(&:as_event)
   end
 
   def holidays
@@ -22,12 +22,14 @@ module EventLoader
   end
 
   def manager_events
-    Leave.by_year(@year).joins(user: :reporting).where(
+    Leave.includes(:user, :leave_type).by_year(@year).joins(
+      user: :reporting
+    ).where(
       reportings: { manager_id: current_user.id }
     ).map(&:as_event)
   end
 
   def hr_events
-    Leave.by_year(@year).map(&:as_event)
+    Leave.includes(:user, :leave_type).by_year(@year).map(&:as_event)
   end
 end
