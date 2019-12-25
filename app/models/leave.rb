@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Leave < ApplicationRecord
-  HALF_DAY_STATES ||= %w[first second]
+  HALF_DAY_STATES ||= %w[first second].freeze
   include AASM
   audited
   belongs_to :user
@@ -12,6 +12,25 @@ class Leave < ApplicationRecord
   validate :end_after_from
   validate :valid_days?
   validate :validate_half_day
+  scope :current_year, lambda {
+    where(
+      arel_table[:from_date].gteq(Time.zone.today.beginning_of_year).and(
+        arel_table[:end_date].lteq(Time.zone.today.end_of_year)
+      ).and(arel_table[:multiple].eq(true)).or(
+        arel_table[:from_date].between(
+          Time.zone.today.beginning_of_year..Time.zone.today.end_of_year
+        ).and(arel_table[:multiple].in([false, nil]))
+      )
+    )
+  }
+
+  scope :by_year, lambda { |year|
+    where(
+      arel_table[:from_date].gteq("#{year}-01-01").and(
+        arel_table[:end_date].lteq("#{year}-12-31")
+      )
+    ).or(where(from_date: ("#{year}-01-01".."#{year}-12-31")))
+  }
   # states
   aasm column: 'state' do
     state :applied, initial: true
@@ -50,6 +69,30 @@ class Leave < ApplicationRecord
     end_dat = end_date.presence || from_date
     range = (from_date..end_dat).to_a
     @days = range.reject { |d| d.saturday? || d.sunday? || d.holiday? }
+  end
+
+  def as_event
+    {
+      id: id,
+      title: title,
+      start: "#{day_collection[0]}T00:00:00",
+      end: event_end,
+      description: reason,
+      className: leave_type.to_style,
+      eventColor: leave_type.to_color,
+      allDay: false
+    }
+  end
+
+  def event_end
+    return nil if effective_days == 1.0
+
+    time = effective_days < 1 ? '12:00:00' : '23:59:59'
+    "#{day_collection[-1]}T#{time}"
+  end
+
+  def title
+    user.name
   end
 
   private

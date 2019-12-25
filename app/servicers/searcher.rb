@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Searcher
   # TODO: @raghavendranekkanti add support for other models too
   def all_search(query, user = current_user)

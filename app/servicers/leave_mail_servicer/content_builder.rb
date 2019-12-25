@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module LeaveMailServicer
   class ContentBuilder
     attr_accessor :content, :leave
@@ -6,7 +8,7 @@ module LeaveMailServicer
       build_content
     end
 
-    private 
+    private
 
     def build_content
       add_summary
@@ -16,7 +18,7 @@ module LeaveMailServicer
 
     def add_summary
       <<~HTML
-        <p>#{}</p>
+        <p></p>
       HTML
     end
   end

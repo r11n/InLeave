@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module LeavesHelper
   def attributize_leaves(leaves)
     leaves.map do |u|

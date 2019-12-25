@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # extends active record querying to search jsonb array columns
 module JsonExtender
   def array_eq(column_name, *args)

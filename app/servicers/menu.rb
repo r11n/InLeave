@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Menu
   include Rails.application.routes.url_helpers
   def employee_menus
@@ -23,7 +25,7 @@ class Menu
       { text: 'Apply for Leave', link: new_leave_path },
       { text: 'My Leaves', link: leaves_path },
       { text: 'Calendar', link: root_path },
-      { text: 'Change Reporting', link: reportings_path}
+      { text: 'Change Reporting', link: reportings_path }
     ]
   end
 
@@ -32,7 +34,7 @@ class Menu
       { text: 'Leave Requests', link: requests_leaves_path },
       { text: 'Reporting Requests', link: requests_reportings_path },
       { text: 'Balances', link: users_path }
-    ] 
+    ]
   end
 
   def team

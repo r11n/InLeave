@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-
   root 'dashboard#index'
   post '/search', to: 'application#search'
   devise_for :users, controllers: {

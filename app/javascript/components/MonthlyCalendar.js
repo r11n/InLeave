@@ -8,60 +8,6 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import ListPlugin from '@fullcalendar/list';
 
-const events = [
-    {
-        id: 6,
-        title: 'Raghavendra Nekkanti',
-        start: '2019-11-05',
-        className: 'event-azure',
-        description: 'Casual leave',
-        eventColor: 'azure',
-        groupId: 1
-    },
-    {
-        id: 1,
-        title: 'Raghavendra Nekkanti',
-        start: '2019-12-05',
-        className: 'event-azure',
-        description: 'Sick leave',
-        eventColor: 'azure',
-        groupId: 1
-    },
-    {
-        id: 2,
-        title: 'Aditya Yellumahanthi',
-        start: '2019-12-05',
-        className: 'event-orange',
-        description: 'function at home',
-        eventColor: 'orange',
-        groupId: 1
-    },
-    {
-        id: 3,
-        title: 'Mohan Siriga',
-        start: '2019-12-05',
-        end: '2019-12-10',
-        className: 'event-rose',
-        description: 'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum',
-        eventColor: 'rose'
-    },
-    {
-        id: 4,
-        title: 'Satya Kota',
-        start: '2019-12-04',
-        end: '2019-12-06',
-        className: 'event-red',
-        eventColor: 'red'
-    },
-    {
-        id: 5,
-        title: 'Vasu K',
-        start: '2019-12-03',
-        end: '2019-12-06',
-        className: 'event-green',
-        eventColor: 'green'
-    },
-]
 const tooltipDesc = (info) => {
     if (info.event.extendedProps.description) {
         info.el.setAttribute('title', info.event.extendedProps.description)
@@ -76,6 +22,7 @@ export default class MonthlyCalendar extends React.Component {
         console.log(info);
     }
     render() {
+        const {events, year} = this.props;
         return (
             <React.Fragment>
                 <CssBaseline />
@@ -94,6 +41,7 @@ export default class MonthlyCalendar extends React.Component {
                                     eventBorderColor={'transparent'}
                                     aspectRatio={1.5}
                                     eventRender={tooltipDesc}
+                                    timeFormat={'H(:mm)'}
                                     footer={{
                                         left: 'listDay,listWeek,dayGridMonth,listYear',
                                         right: 'prevYear,nextYear'
@@ -108,8 +56,8 @@ export default class MonthlyCalendar extends React.Component {
                                     navLinks={true}
                                     // eventLimit={4
                                     validRange={{
-                                        start: '2019-01-01',
-                                        end: '2019-12-31'
+                                        start: `${year}-01-01`,
+                                        end: `${year}-12-31`
                                     }}
                                     resi
                                     />

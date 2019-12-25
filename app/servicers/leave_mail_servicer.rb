@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 module LeaveMailServicer
-  CPROC = ->(l) do
+  CPROC = lambda do |l|
     if l.auto_approved?
       "leave request was #{l.state.sub('_', ' ')}"
     else
@@ -17,22 +19,23 @@ module LeaveMailServicer
   }.freeze
 
   def build_mail(leave)
-    to, cc = [], [hr]
-    if (leave.applied? || leave.cancelled?) 
-      to = [leave.user.manager]
-    elsif leave.auto_approved?
-      to = [leave.user, leave.user.manager]
-    else
-      to = [leave.user]
-    end
+    to = []
+    cc = [hr]
+    to = if leave.applied? || leave.cancelled?
+           [leave.user.manager]
+         elsif leave.auto_approved?
+           [leave.user, leave.user.manager]
+         else
+           [leave.user]
+         end
     @mailer = Mailer.new(
-      to,subject_builder(leave), content_builder(leave),
+      to, subject_builder(leave), content_builder(leave),
       cc: cc
     )
   end
 
   def hr
-    @hr ||= User.joins(:role).where(roles: {name: 'hr'}).first
+    @hr ||= User.joins(:role).where(roles: { name: 'hr' }).first
   end
 
   def subject_builder(leave)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RedKiq
   EXPIRY_PERIOD = 3.days
   attr_accessor :client

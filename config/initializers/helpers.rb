@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # supports for holiday? to Date
 # supports working_hours? to Time
 Date.class_eval do

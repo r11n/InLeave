@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LeavesController < ApplicationController
   include LeavesHelper
   load_and_authorize_resource
@@ -67,9 +69,11 @@ class LeavesController < ApplicationController
     params[:from_date] = Date.parse(
       Time.zone.parse(params[:from_date]).localtime.to_s
     )
-    params[:end_date] = Date.parse(
-      Time.zone.parse(params[:end_date]).localtime.to_s
-    ) if params[:end_date].present?
+    if params[:end_date].present?
+      params[:end_date] = Date.parse(
+        Time.zone.parse(params[:end_date]).localtime.to_s
+      )
+    end
     params
   end
 

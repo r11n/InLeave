@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module UsersHelper
   def extend_with_roles(users)
     users.map do |u|

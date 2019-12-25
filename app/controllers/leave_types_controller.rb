@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LeaveTypesController < ApplicationController
   def index
     @leave_types = LeaveType.all.pluck(:id, :name)
