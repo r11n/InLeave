@@ -14,6 +14,8 @@ import { user_wrap } from './utils/params';
 import MessageMake from './utils/message_make';
 import Flash from './Flash';
 import { LinearProgress, MenuItem, FormControl,InputLabel, Select } from '@material-ui/core';
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 const styles = theme => ({
     form: {
@@ -129,7 +131,7 @@ class UserForm extends React.Component {
         this.setState({
             user: {
                 ...this.state.user,
-                [prop]: event.target.value
+                [prop]: prop === 'joining_date' ? event : event.target.value
             },
         });
     }
@@ -206,6 +208,19 @@ class UserForm extends React.Component {
                                         }
                                     </Select>
                                 </FormControl>
+                            </Grid>
+                            <Grid item sm={12} md={4}>
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                        <DatePicker
+                                            fullWidth
+                                            label='Joining Date'
+                                            format="d MMM, Y"
+                                            value={this.state.user.joining_date}
+                                            onChange={this.propChange('joining_date')}
+                                            animateYearScrolling
+                                            disabled={loading}
+                                        />
+                                </MuiPickersUtilsProvider>
                             </Grid>
                         </Grid>
                     </form>

@@ -25,6 +25,7 @@ gem 'react-rails', '~> 2.6'
 gem 'rubocop-rails'
 gem 'sendgrid-ruby', '~> 6.0'
 gem 'sidekiq'
+gem 'sidekiq-scheduler', '~> 3.0'
 gem 'webpacker', '~> 4.0'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'

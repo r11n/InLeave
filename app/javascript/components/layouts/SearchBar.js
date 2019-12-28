@@ -63,12 +63,12 @@ export default function SearchBar(props) {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [searching, setSearching] = useState(false);
-    const queryChnage = (event) => {
-        const nquery = event.target.value;
-        if (nquery !== query) {
-            search({query: nquery}).then(
+    const queryChange = (event) => {
+        const newQuery = event.target.value;
+        if (newQuery !== query) {
+            search({query: newQuery}).then(
                 (res) => {
-                    setQuery(nquery)
+                    setQuery(newQuery)
                     setResults(JSON.parse(res))
                 }
             )
@@ -92,7 +92,7 @@ export default function SearchBar(props) {
                   input: classes.inputInput,
                 }}
                 inputProps={{ 'aria-label': 'search' }}
-                onChange={queryChnage}
+                onChange={queryChange}
             />
             {!!query && !!searching && <SearchReasults results={results}/>}
         </div>
@@ -137,7 +137,7 @@ function renderRow(props) {
                             component="span"
                             variant="body2"
                             style={{display: 'inline'}}
-                            color="textPrimary"
+                            color="textSecondary"
                         >
                             {secondary_text}
                         </Typography>

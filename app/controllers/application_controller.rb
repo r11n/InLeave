@@ -14,6 +14,18 @@ class ApplicationController < ActionController::Base
     render json: params[:query].present? ? all_search(params[:query]) : [], status: :ok
   end
 
+  def date_wrap(params)
+    params[:from_date] = Date.parse(
+      Time.zone.parse(params[:from_date]).localtime.to_s
+    )
+    if params[:end_date].present?
+      params[:end_date] = Date.parse(
+        Time.zone.parse(params[:end_date]).localtime.to_s
+      )
+    end
+    params
+  end
+
   private
 
   def deny_access

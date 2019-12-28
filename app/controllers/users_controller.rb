@@ -48,8 +48,20 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(
-      :id, :first_name, :last_name, :email, user_role_attributes: [:role_id]
+    date_wrap(
+      params.require(:user).permit(
+        :id, :first_name, :last_name, :email, :joining_date,
+        user_role_attributes: [:role_id]
+      )
     )
+  end
+
+  def date_wrap(uparams)
+    return uparams if uparams[:joining_date].blank?
+
+    uparams[:joining_date] = Date.parse(
+      Time.zone.parse(uparams[:joining_date]).localtime.to_s
+    )
+    uparams
   end
 end

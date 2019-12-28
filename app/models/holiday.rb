@@ -87,6 +87,9 @@ class Holiday < ApplicationRecord
   private
 
   def end_after_from?
-    errors.add(:end_date, 'Must be after start date') if from_date && end_date
+    return unless from_date.present? && end_date.present?
+
+    self.multiple = true
+    errors.add(:end_date, 'Must be after start date') if from_date >= end_date
   end
 end

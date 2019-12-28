@@ -4,15 +4,12 @@ class LeavesController < ApplicationController
   include LeavesHelper
   load_and_authorize_resource
   before_action :load_leaves, except: %i[create update effective_days]
-  before_action :load_leave_types, except: %i[create update]
   before_action :load_leave, only: %i[show update]
   def index
     respond_to do |format|
       format.html { render :index }
       format.json do
-        render json: @leaves.map do |k|
-          k.attributes.except(*ApplicationHelper::FILTERED)
-        end
+        render json: attributize_leaves(@leaves)
       end
     end
   end
@@ -22,7 +19,6 @@ class LeavesController < ApplicationController
   end
 
   def show
-    @leave = Leave.find(params[:id])
     render :index
   end
 
@@ -55,6 +51,12 @@ class LeavesController < ApplicationController
     render json: { day_collection: days, effective_days: days.size }
   end
 
+  def team
+  end
+
+  def requests
+  end
+
   private
 
   def load_leave
@@ -63,18 +65,6 @@ class LeavesController < ApplicationController
 
   def load_leaves
     @leaves = current_user.leaves
-  end
-
-  def date_wrap(params)
-    params[:from_date] = Date.parse(
-      Time.zone.parse(params[:from_date]).localtime.to_s
-    )
-    if params[:end_date].present?
-      params[:end_date] = Date.parse(
-        Time.zone.parse(params[:end_date]).localtime.to_s
-      )
-    end
-    params
   end
 
   def day_calc_params
@@ -87,9 +77,5 @@ class LeavesController < ApplicationController
         :leave_type_id, :reason, :from_date, :end_date, :half
       )
     )
-  end
-
-  def load_leave_types
-    @leave_types = LeaveType.select(:id, :name).all
   end
 end

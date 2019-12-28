@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# supplies menus based on roles
 class Menu
   include Rails.application.routes.url_helpers
   def employee_menus
@@ -39,14 +40,17 @@ class Menu
 
   def team
     @team ||= [
-      { text: 'Team', link: team_leaves_path }
+      { text: 'Team', link: team_leaves_path },
+      { text: 'Leave Requests', link: requests_leaves_path },
+      { text: 'Reporting Requests', link: requests_reportings_path }
     ]
   end
 
   def hr
     @hr ||= [
       { text: 'User Management', link: users_path },
-      { text: 'Holiday Management', link: holidays_path }
+      { text: 'Holiday Management', link: holidays_path },
+      { text: 'Reporting', link: reportings_path }
     ]
   end
 

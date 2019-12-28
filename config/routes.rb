@@ -34,7 +34,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :holidays, only: %i[index update show]
+  resources :holidays, except: %i[destroy edit]
 
   resources :roles, only: %i[index update create] do
     collection do

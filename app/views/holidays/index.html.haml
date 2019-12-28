@@ -1,0 +1,1 @@
+= react_component('HolidayDashboard', {holidays: @holidays.present? ? attrize(@holidays) : [],range: @range || [Time.zone.now.year] , active_id: params[:id], new: current_page?(controller: 'holidays', action: 'new')})

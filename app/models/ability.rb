@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Role based authorizations 
 class Ability
   include CanCan::Ability
   attr_accessor :user

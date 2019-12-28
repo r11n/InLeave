@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# user model
 class User < ApplicationRecord
   SERIALIZER_EXCEPTIONS = %w[
     encrypted_password created_at updated_at reset_password_token
@@ -13,6 +14,13 @@ class User < ApplicationRecord
   has_one :role, through: :user_role
   has_one :reporting, dependent: :destroy
   has_many :leaves, dependent: :destroy
+  has_many(
+    :reporter_links, foreign_key: :manager_id,
+                     class_name: 'Reporting',
+                     dependent: :nullify,
+                     inverse_of: :user
+  )
+  has_many :team_members, through: :reporter_links, source: :user
   has_one(
     :manager, class_name: 'User',
               through: :reporting,
@@ -24,8 +32,9 @@ class User < ApplicationRecord
     allow_destroy: true
   )
   validates :email, presence: true, uniqueness: { case_sensitive: false }
-  validates :first_name, :last_name, presence: true
+  validates :first_name, :last_name, :joining_date, presence: true
   validate :role?
+  after_create :create_reporting
 
   def name
     @name = "#{first_name} #{last_name}"
@@ -56,5 +65,11 @@ class User < ApplicationRecord
 
   def role?
     errors.add(:user_role, "Can't be blank") if user_role.blank?
+  end
+
+  def create_reporting
+    return reporting if reporting.present?
+
+    build_reporting.save
   end
 end

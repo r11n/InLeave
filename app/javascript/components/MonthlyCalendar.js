@@ -21,8 +21,16 @@ export default class MonthlyCalendar extends React.Component {
     click = (info) => {
         console.log(info);
     }
+    curentYear = (new Date()).getFullYear();
+    getMonth = (month) => {
+        if (month) {
+            return month;
+        }
+        return this.curentYear !== this.props.year ? 1 : ((new Date()).getMonth() + 1)
+    }
     render() {
-        const {events, year} = this.props;
+        const {events, year, month} = this.props;
+        const goto = new Date(`${year}-${this.getMonth(month)}-01`)
         return (
             <React.Fragment>
                 <CssBaseline />
@@ -37,6 +45,7 @@ export default class MonthlyCalendar extends React.Component {
                                     weekends={false}
                                     dateClick={this.click}
                                     events={events}
+                                    defaultDate={goto}
                                     eventClick={this.click}
                                     eventBorderColor={'transparent'}
                                     aspectRatio={1.5}

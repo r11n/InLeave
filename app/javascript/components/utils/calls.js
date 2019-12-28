@@ -114,14 +114,18 @@ export const fetch_holidays = () => {
 }
 
 export const holiday_update = (id, props) => {
-    return call.trigger(`${HOLIDAY_ROUTE}/update`, 'PATCH', props, csrf_token_hash())
+    return call.trigger(`${HOLIDAY_ROUTE}/${id}`, 'PATCH', props, csrf_token_hash())
 }
 
 export const holiday_create = (props) => {
-    return call.trigger(`${HOLIDAY_ROUTE}/create`, 'POST', props, csrf_token_hash())
+    return call.trigger(`${HOLIDAY_ROUTE}`, 'POST', props, csrf_token_hash())
 }
 
 // search
 export const search = (props) => {
     return call.trigger(SEARCH, 'POST',props, csrf_token_hash())
+}
+
+export const goto_holiday_year = (year) => {
+    window.location = `${HOLIDAY_ROUTE}?year=${year}`
 }
