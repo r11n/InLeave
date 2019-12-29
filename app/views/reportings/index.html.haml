@@ -1,0 +1,6 @@
+- if current_user.hr? || current_user.admin?
+  = react_component('ReportingDashboard', reportings: @reportings)
+- if current_user.manager?
+  = react_component('ManagerReporting', reportings: @reportings, reporting: @reporting)
+- if current_user.employee?
+  = react_component('Reporting', reporting: @reporting)

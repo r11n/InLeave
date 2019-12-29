@@ -121,11 +121,15 @@ export const holiday_create = (props) => {
     return call.trigger(`${HOLIDAY_ROUTE}`, 'POST', props, csrf_token_hash())
 }
 
+export const goto_holiday_year = (year) => {
+    window.location = `${HOLIDAY_ROUTE}?year=${year}`
+}
+
 // search
 export const search = (props) => {
     return call.trigger(SEARCH, 'POST',props, csrf_token_hash())
 }
 
-export const goto_holiday_year = (year) => {
-    window.location = `${HOLIDAY_ROUTE}?year=${year}`
+export const save_reporting = (id, destination) => {
+    return call.trigger(`/reportings/${id}/save`, 'POST',{destination}, csrf_token_hash());
 }

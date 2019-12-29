@@ -25,12 +25,14 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :leave_types, only: %i[index] do
-  end
+  resources :leave_types, only: %i[index]
 
-  resources :reportings, except: %i[destroy] do
+  resources :reportings, only: %i[index] do
     collection do
       get :requests
+    end
+    member do
+      post :save
     end
   end
 

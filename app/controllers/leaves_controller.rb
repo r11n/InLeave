@@ -68,7 +68,7 @@ class LeavesController < ApplicationController
   end
 
   def day_calc_params
-    date_wrap(params.require(:leave).permit(:from_date, :end_date))
+    date_wrap(params.permit(:from_date, :end_date))
   end
 
   def leave_params

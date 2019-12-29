@@ -239,7 +239,7 @@ class LeaveForm extends React.Component {
                                 {
                                     multiple && <DateRangePicker
                                         onChange={this.dateChange}
-                                        maxDate={new Date(`${currentYear}-12-31 23:59:59`)}
+                                        maxDate={new Date(`${currentYear + 1}-12-31 23:59:59`)}
                                         minDate={new Date(`${currentYear}-${currentMonth - 1}-1`)}
                                         format={'dd MMM,y'}
                                         disabled={loading}
