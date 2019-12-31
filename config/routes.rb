@@ -23,14 +23,18 @@ Rails.application.routes.draw do
       get :requests
       post :effective_days
     end
+    member do
+      post :save
+    end
   end
 
-  resources :leave_types, only: %i[index]
+  resources :leave_types, only: %i[index create update] do
+    collection do
+      get :for_form
+    end
+  end
 
   resources :reportings, only: %i[index] do
-    collection do
-      get :requests
-    end
     member do
       post :save
     end

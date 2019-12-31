@@ -40,24 +40,29 @@ class Leave < ApplicationRecord
     state :manager_rejected
     state :hr_rejected
     state :auto_approved
+    state :re_applied
 
     event :manager_approve do
-      transitions from: %i[applied manager_rejected], to: :manager_approved
+      transitions from: %i[applied re_applied manager_rejected], to: :manager_approved
     end
     event :auto_approve do
-      transitions from: %i[applied], to: :auto_approved, guard: :not_responded?
+      transitions from: %i[re_applied applied], to: :auto_approved, guard: :not_responded?
     end
     event :hr_approve do
-      transitions from: %i[applied hr_rejected], to: :hr_approved
+      transitions from: %i[applied re_applied hr_rejected], to: :hr_approved
     end
     event :cancel do
-      transitions from: %i[applied hr_approved manager_approved auto_approved], to: :cancelled, guard: :before_three_days?
+      transitions from: %i[applied re_applied hr_approved manager_approved auto_approved], to: :cancelled
     end
     event :manager_reject do
-      transitions from: %i[applied hr_approved manager_approved auto_approved], to: :manager_rejected, guard: :before_three_days?
+      transitions from: %i[applied re_applied hr_approved manager_approved auto_approved], to: :manager_rejected
     end
     event :hr_reject do
-      transitions from: %i[applied hr_approved manager_approved auto_approved], to: :hr_rejected, guard: :before_three_days?
+      transitions from: %i[applied re_applied hr_approved manager_approved auto_approved], to: :hr_rejected
+    end
+
+    event :re_apply do
+      transitions from: %i[cancelled manager_rejected hr_rejected], to: :re_applied
     end
   end
 
@@ -145,7 +150,7 @@ class Leave < ApplicationRecord
   end
 
   def before_three_days?
-    (Time.zone.today - from).to_f < 3
+    (Time.zone.today - from_date).to_f < 3
   end
 
   def not_responded?

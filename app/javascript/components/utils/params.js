@@ -21,6 +21,10 @@ export const leave_wrap = (props) => {
     return params
 }
 
+export const leave_type_wrap = (props) => {
+    return generic_wrap('leave_type', props);
+}
+
 const generic_wrap = (type, props) => {
     delete props.id;
     return {

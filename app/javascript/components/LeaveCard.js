@@ -8,6 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { IconButton, Chip, Avatar } from '@material-ui/core';
 import LeaveForm from './LeaveForm';
 import styled from 'styled-components';
+import { save_leave } from './utils/calls';
 const styles = theme => ({
     card: {
         minWidth: 275,
@@ -49,13 +50,14 @@ class LeaveCard extends React.Component {
         super(props);
         this.state = {
             edit: props.active,
-            leave: this.mappedLeave(props.leave)
+            leave: this.mappedLeave(props.leave),
+            confirmation: false,
+            confirmationVal: false
         }
         this.toggleEdit = this.toggleEdit.bind(this);
     }
 
     mappedLeave = (leave) => {
-        console.log(leave)
         return {
             ...leave,
             from_date: (new Date(leave.from_date)),
@@ -86,6 +88,26 @@ class LeaveCard extends React.Component {
         )
     }
 
+    today = new Date();
+
+    oneWeek = this.today.minus(1, 'week')
+
+    disabled = (from_date) => {
+        return this.oneWeek > from_date;
+    }
+
+    cancel = (_event) => {
+        save_leave(this.state.leave.id, 'cancel').then(
+            (_res) => {
+                this.props.reload();
+            }
+        )
+    }
+
+    cancelled = () => {
+        return this.state.leave.state === 'cancelled'
+    }
+
     render() {
         const {classes} = this.props;
         const {leave, edit} = this.state;
@@ -104,7 +126,8 @@ class LeaveCard extends React.Component {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button size="small" color="primary" onClick={this.toggleEdit}>Edit</Button>
+                    <Button disabled={this.disabled(leave.from_date)} size="small" color="primary" onClick={this.toggleEdit}>Edit</Button>
+                    <Button disabled={this.disabled(leave.from_date) || this.cancelled()} size="small" color="primary" onClick={this.cancel}>Cancel</Button>
                 </CardActions>
                 {edit && <LeaveForm leave={leave} open={edit} success={this.updateLeave} close={this.toggleEdit}/>}
             </Card>

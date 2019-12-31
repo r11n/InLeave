@@ -105,7 +105,7 @@ export const leave_create = (props) => {
 }
 
 export const fetch_leave_types = () => {
-    return call.trigger(`${LEAVE_TYPES}.json`, 'GET');
+    return call.trigger(`${LEAVE_TYPES}/for_form.json`, 'GET');
 }
 
 // holidays
@@ -132,4 +132,22 @@ export const search = (props) => {
 
 export const save_reporting = (id, destination) => {
     return call.trigger(`/reportings/${id}/save`, 'POST',{destination}, csrf_token_hash());
+}
+
+export const save_leave = (id, destination) => {
+    return call.trigger(`/leaves/${id}/save`, 'POST',{destination}, csrf_token_hash());
+}
+
+export const reload_requests = () => {
+    return call.trigger(`/leaves/requests.json`, 'GET');
+}
+
+// leave_type
+
+export const leave_type_update = (id, props) => {
+    return call.trigger(`/leave_types/${id}`, 'PATCH', props, csrf_token_hash())
+}
+
+export const leave_type_create = (props) => {
+    return call.trigger(`/leave_types`, 'POST', props, csrf_token_hash())
 }

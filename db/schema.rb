@@ -10,15 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_28_142938) do
+ActiveRecord::Schema.define(version: 2019_12_31_075540) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accumulations", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "year"
-    t.jsonb "data"
+    t.integer "year"
+    t.jsonb "balance_data"
+    t.jsonb "forward_data"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_accumulations_on_user_id"
@@ -68,12 +69,13 @@ ActiveRecord::Schema.define(version: 2019_12_28_142938) do
 
   create_table "leave_types", force: :cascade do |t|
     t.string "name"
-    t.integer "limit"
+    t.float "limit"
     t.boolean "forwadable"
     t.integer "forward_limit"
     t.integer "forward_count"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "counting_type", default: "yearly"
   end
 
   create_table "leaves", force: :cascade do |t|

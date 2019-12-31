@@ -17,7 +17,7 @@ class ReportingsController < ApplicationController
       render json: { validations: @reporting.errors }, status: :bad_request
     end
   rescue AASM::InvalidTransition => e
-    render json: {message: e.message}
+    render json: { message: e.message }
   end
 
   private

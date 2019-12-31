@@ -61,7 +61,7 @@ export default function LeaveDashboard(props) {
                     {
                         !loading && leaves.map(leave => (
                             <Grid key={leave.id} item xs={12} sm={6} md={4}>
-                                <LeaveCard leave={leave} active={parseInt(props.active_id) === leave.id}/>
+                                <LeaveCard leave={leave} active={parseInt(props.active_id) === leave.id} reload={success}/>
                             </Grid>
                         ))
                     }
