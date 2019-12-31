@@ -21,4 +21,8 @@ module ApplicationHelper
   def attrize(objs)
     objs.map { |k| k.attributes.except(*FILTERED) }
   end
+
+  def holiday_range
+    (Holiday.minimum(:from_date).year..Holiday.maximum(:from_date).year).to_a
+  end
 end

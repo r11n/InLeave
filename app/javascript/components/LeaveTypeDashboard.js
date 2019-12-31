@@ -67,7 +67,7 @@ function TypeCard({type}) {
             return
         }
         const val = event.target.innerText;
-        if (val !== typeVal[type]) {
+        if (val !== typeVal[type].toString()) {
             setDirty(true);
             setTypeVal({
                 ...typeVal,

@@ -14,6 +14,11 @@ class User < ApplicationRecord
   has_one :role, through: :user_role
   has_one :reporting, dependent: :destroy
   has_many :leaves, dependent: :destroy
+  has_many :accumulations, dependent: :destroy
+  has_one :current_balance, -> { where(year: Time.zone.today.year) },
+          class_name: 'Accumulation',
+          dependent: :destroy,
+          inverse_of: :user
   has_many(
     :reporter_links, foreign_key: :manager_id,
                      class_name: 'Reporting',

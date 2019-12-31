@@ -7,6 +7,8 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import ListPlugin from '@fullcalendar/list';
+import { Card, CardContent, Chip } from '@material-ui/core';
+import { goto_calendar_year } from './utils/calls';
 
 const tooltipDesc = (info) => {
     if (info.event.extendedProps.description) {
@@ -28,14 +30,22 @@ export default class MonthlyCalendar extends React.Component {
         }
         return this.curentYear !== this.props.year ? 1 : ((new Date()).getMonth() + 1)
     }
+
+    enabled = (year) => {
+        return this.props.year.toString() !== year.toString()
+    }
+    toggleYear = (year) => (_event) => {
+        goto_calendar_year(year);
+    }
+
     render() {
-        const {events, year, month} = this.props;
+        const {events, year, month, year_range} = this.props;
         const goto = new Date(`${year}-${this.getMonth(month)}-01`)
         return (
             <React.Fragment>
                 <CssBaseline />
                 <Container fixed>
-                    <Grid container spacing={3}>
+                    <Grid container spacing={3} style={{padding: 10}}>
                         <Grid item md={8} sm={12}>
                             <Paper style={{padding: '15px'}}>
                                 <FullCalendar
@@ -71,6 +81,24 @@ export default class MonthlyCalendar extends React.Component {
                                     resi
                                     />
                             </Paper>
+                        </Grid>
+                        <Grid item md={2} sm={6}>
+                            <Card>
+                                <CardContent>
+                                    {
+                                        year_range.map(y => (
+                                            <Chip
+                                                key={y}
+                                                clickable={this.enabled(y)}
+                                                color={this.enabled(y) ? 'primary' : 'default'}
+                                                onClick={this.toggleYear(y)}
+                                                label={y}
+                                                style={{marginRight: 5}}
+                                            />
+                                        ))
+                                    }
+                                </CardContent>
+                            </Card>
                         </Grid>
                     </Grid>
                 </Container>

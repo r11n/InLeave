@@ -3,11 +3,13 @@
 class LeaveType < ApplicationRecord
   COUNTING_TYPES ||= %w[yearly monthly].freeze
   validate :valid_counting_type?
-  validates :name, :limit, :counting_type, presence: true
+  validates :limit, :counting_type, presence: true
+  validates :name, presence: true, uniqueness: { case_sensitive: false }
   validates :forward_limit, :forward_count, presence: true, if: :forward?
   validates :limit, numericality: { greater_than: 0 }
   validates :forward_limit, :forward_count,
             numericality: { greater_than: 0 }, if: :forward?
+  before_validation :trim_name
 
   def to_style
     "event-#{style_name}"
@@ -34,5 +36,9 @@ class LeaveType < ApplicationRecord
 
   def forward?
     forwadable.present? && forwadable
+  end
+
+  def trim_name
+    self.name = name.strip
   end
 end

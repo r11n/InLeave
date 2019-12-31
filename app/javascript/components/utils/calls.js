@@ -125,6 +125,10 @@ export const goto_holiday_year = (year) => {
     window.location = `${HOLIDAY_ROUTE}?year=${year}`
 }
 
+export const goto_calendar_year = (year) => {
+    window.location = `/?year=${year}`
+}
+
 // search
 export const search = (props) => {
     return call.trigger(SEARCH, 'POST',props, csrf_token_hash())

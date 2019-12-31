@@ -10,7 +10,7 @@
     %link{:href => "https://fonts.googleapis.com/icon?family=Material+Icons", :rel => "stylesheet"}/
     = javascript_pack_tag 'application'
     = stylesheet_link_tag 'full-calendar', media: 'all', 'data-turbolinks-track': 'reload'
-  %body{:style => "margin: 0"}
+  %body{:style => "margin: 0; background: #f5f5f5"}
     %div{:style => "flex-grow: 1;"}
       = react_component('layouts/Header', {user: user_signed_in? ? current_user : nil, menus: menus})
       - if notice

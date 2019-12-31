@@ -1,5 +1,5 @@
 @charset "UTF-8";
-
+/* #3f51b5 */
 .fc-button:not(:disabled),
 .fc-event.fc-draggable,
 .fc-event[href],
@@ -1016,7 +1016,7 @@ body .fc {
 }
 .fc button,
 .fc button.btn-primary {
- box-shadow:0 2px 2px 0 rgba(156,39,176,.14),0 3px 1px -2px rgba(156,39,176,.2),0 1px 5px 0 rgba(156,39,176,.12)
+ box-shadow:0 2px 2px 0 rgba(63,81,181,.14),0 3px 1px -2px rgba(63,81,181,.2),0 1px 5px 0 rgba(63,81,181,.12)
 }
 .fc button,
 .fc button.active,
@@ -1042,7 +1042,7 @@ body .fc {
 .open>.fc button.dropdown-toggle,
 .open>.fc button.dropdown-toggle:focus,
 .open>.fc button.dropdown-toggle:hover {
- background-color:#9c27b0;
+ background-color:#3f51b5;
  color:#fff
 }
 .fc button.btn-primary:active,
@@ -1051,7 +1051,7 @@ body .fc {
 .fc button:active,
 .fc button:focus,
 .fc button:hover {
- box-shadow:0 14px 26px -12px rgba(156,39,176,.42),0 4px 23px 0 rgba(0,0,0,.12),0 8px 10px -5px rgba(156,39,176,.2)
+ box-shadow:0 14px 26px -12px rgba(63, 81, 181, 0.42),0 4px 23px 0 rgba(0, 0, 0, .12),0 8px 10px -5px rgba(63, 81, 181, 0.2)
 }
 .fc button.btn-primary.disabled,
 .fc button.btn-primary.disabled.active,
@@ -1106,7 +1106,7 @@ fieldset[disabled] .fc button:hover {
 .fc button.btn-primary.btn-simple,
 .fc button.btn-simple {
  background-color:transparent;
- color:#9c27b0;
+ color:#3f51b5;
  box-shadow:none
 }
 .fc button.btn-primary.btn-simple:active,
@@ -1116,7 +1116,7 @@ fieldset[disabled] .fc button:hover {
 .fc button.btn-simple:focus,
 .fc button.btn-simple:hover {
  background-color:transparent;
- color:#9c27b0
+ color:#3f51b5
 }
 .fc button[disabled],
 .fc button[disabled]:focus,
