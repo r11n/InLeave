@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
-import { Grid, Button, LinearProgress, Fab, Typography } from '@material-ui/core';
-import UserCard from './UserCard';
+import { Grid, LinearProgress, Fab, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { fetch_leaves } from './utils/calls';
+import { fetch_leaves, get_balance } from './utils/calls';
 import LeaveForm from './LeaveForm';
 import AddIcon from '@material-ui/icons/Add';
 import LeaveCard from './LeaveCard';
+import AccumulationCard from './AccumulationCard';
 // import { find_leave } from './utils/finders';
 
 const useStyles = makeStyles(theme => ({
@@ -21,13 +21,23 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-
 export default function LeaveDashboard(props) {
     const [leaves, setLeaves] = useState(props.leaves);
+    const [accumulation, setAccumulation] = useState(props.accumulation);
+    const [types, setTypes] = useState(props.types)
     const [editingId, setEditingId] = useState(props.new);
     const [loading, setLoading] = useState(false);
     const classes = useStyles();
-    const emtLeave = {from_date: new Date(), end_date: null, reason: ''}
+    const emtLeave = {from_date: new Date(), end_date: null, reason: ''};
+    const updateBalance = () => {
+        get_balance().then(
+            (res) => {
+                const {accumulation, types} = JSON.parse(res);
+                setAccumulation(accumulation);
+                setTypes(types);
+            }
+        )
+    }
     const create = () => {
         setEditingId(1);
     }
@@ -36,6 +46,7 @@ export default function LeaveDashboard(props) {
         fetch_leaves().then(
             (res) => {
                 setLoading(false);
+                updateBalance();
                 setLeaves(JSON.parse(res));
             }
         )
@@ -57,6 +68,13 @@ export default function LeaveDashboard(props) {
                             My Leaves
                         </Typography>
                     </Grid>
+                    {accumulation && <Grid item sm={12}>
+                        <Grid container justify="center">
+                            <Grid item sm={12} md={6}>
+                                <AccumulationCard accumulation={accumulation} types={types} />
+                            </Grid>
+                        </Grid>
+                    </Grid>}
                     {loading && <Grid key='creator-user' item sm={12}><LinearProgress /></Grid>}
                     {
                         !loading && leaves.map(leave => (

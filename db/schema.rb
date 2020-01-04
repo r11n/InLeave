@@ -10,18 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_31_075540) do
+ActiveRecord::Schema.define(version: 2020_01_03_095804) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accumulations", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.integer "year"
     t.jsonb "balance_data"
-    t.jsonb "forward_data"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.jsonb "forward_data"
+    t.integer "year"
+    t.boolean "imported"
     t.index ["user_id"], name: "index_accumulations_on_user_id"
   end
 
@@ -90,6 +91,8 @@ ActiveRecord::Schema.define(version: 2019_12_31_075540) do
     t.string "state"
     t.jsonb "day_collection"
     t.string "half"
+    t.text "note"
+    t.jsonb "cc_list"
     t.index ["leave_type_id"], name: "index_leaves_on_leave_type_id"
     t.index ["user_id"], name: "index_leaves_on_user_id"
   end
@@ -130,6 +133,7 @@ ActiveRecord::Schema.define(version: 2019_12_31_075540) do
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.date "joining_date"
+    t.string "employee_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

@@ -50,7 +50,7 @@ class UsersController < ApplicationController
   def user_params
     date_wrap(
       params.require(:user).permit(
-        :id, :first_name, :last_name, :email, :joining_date,
+        :id, :first_name, :last_name, :email, :joining_date, :employee_id,
         user_role_attributes: [:role_id]
       )
     )

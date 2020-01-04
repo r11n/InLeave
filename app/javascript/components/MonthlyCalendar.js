@@ -7,8 +7,34 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import ListPlugin from '@fullcalendar/list';
-import { Card, CardContent, Chip } from '@material-ui/core';
+import { Card, CardContent, Chip, List, Avatar, ListSubheader, ListItem, ListItemAvatar, ListItemText, Typography } from '@material-ui/core';
 import { goto_calendar_year } from './utils/calls';
+import styled from 'styled-components';
+import DateRangeIcon from '@material-ui/icons/DateRange';
+import { DatePresenter } from './LeaveCard';
+
+const FlexWrapper = styled.div`
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+`;
+
+const leaveMap = [{
+    name: "Annual Leave",
+    color: "rose"
+}, {
+    name: "Casual Leave",
+    color: "azure"
+}, {
+    name: "Sick leave",
+    color: "red"
+}, {
+    name: "Maternity Leave",
+    color: "default"
+}, {
+    name: "Work From Home",
+    color: "orange"
+}];
 
 const tooltipDesc = (info) => {
     if (info.event.extendedProps.description) {
@@ -18,6 +44,25 @@ const tooltipDesc = (info) => {
 const buttonClick = (view, element) => {
     console.log(view);
     console.log(element);
+}
+
+const HolidayPresenter = ({holiday}) => {
+    const Ranger = ({from_date, end_date}) => {
+        return (
+            <React.Fragment>
+                <DatePresenter date={from_date}/>
+                {end_date && <React.Fragment>-</React.Fragment>}
+                {end_date && <DatePresenter date={end_date}/>}
+            </React.Fragment>
+        )
+    }
+
+    return (
+        <ListItemText
+            primary={holiday.title}
+            secondary={<Ranger from_date={new Date(holiday.start)}/>}
+        />
+    )
 }
 export default class MonthlyCalendar extends React.Component {
     click = (info) => {
@@ -39,7 +84,7 @@ export default class MonthlyCalendar extends React.Component {
     }
 
     render() {
-        const {events, year, month, year_range} = this.props;
+        const {events, year, month, year_range, holidays} = this.props;
         const goto = new Date(`${year}-${this.getMonth(month)}-01`)
         return (
             <React.Fragment>
@@ -73,7 +118,7 @@ export default class MonthlyCalendar extends React.Component {
                                     }}
                                     viewRender={buttonClick}
                                     navLinks={true}
-                                    // eventLimit={4
+                                    eventLimit={3}
                                     validRange={{
                                         start: `${year}-01-01`,
                                         end: `${year}-12-31`
@@ -82,23 +127,65 @@ export default class MonthlyCalendar extends React.Component {
                                     />
                             </Paper>
                         </Grid>
-                        <Grid item md={2} sm={6}>
-                            <Card>
-                                <CardContent>
-                                    {
-                                        year_range.map(y => (
-                                            <Chip
-                                                key={y}
-                                                clickable={this.enabled(y)}
-                                                color={this.enabled(y) ? 'primary' : 'default'}
-                                                onClick={this.toggleYear(y)}
-                                                label={y}
-                                                style={{marginRight: 5}}
-                                            />
-                                        ))
-                                    }
-                                </CardContent>
-                            </Card>
+                        <Grid item md={4} sm={12}>
+                            <Grid container spacing={3}>
+                                <Grid item sm={12}>
+                                    <Card>
+                                        <CardContent>
+                                            <FlexWrapper>
+                                                {
+                                                    year_range.map(y => (
+                                                        <Chip
+                                                            key={y}
+                                                            clickable={this.enabled(y)}
+                                                            color={this.enabled(y) ? 'primary' : 'default'}
+                                                            onClick={this.toggleYear(y)}
+                                                            label={y}
+                                                            style={{margin: 2}}
+                                                        />
+                                                    ))
+                                                }
+                                            </FlexWrapper>
+                                            <FlexWrapper style={{marginTop: 5}}>
+                                                {
+                                                    leaveMap.map(l => (
+                                                        <Chip
+                                                            key={l.color}
+                                                            size='small'
+                                                            avatar={<Avatar className={`fc-event event-${l.color}`} />}
+                                                            label={l.name}
+                                                            style={{margin: 2}}
+                                                        />
+                                                    ))
+                                                }
+                                            </FlexWrapper>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                                <Grid item sm={12}>
+                                    <Card>
+                                        <CardContent>
+                                            <List dense
+                                                aria-labelledby="holiday-header"
+                                                subheader={
+                                                    <ListSubheader component="div" id="holiday-header">
+                                                        Holidays
+                                                    </ListSubheader>
+                                                }
+                                            >
+                                                {
+                                                    holidays.map(h => (
+                                                        <ListItem key={h.id}>
+                                                            <ListItemAvatar><DateRangeIcon /></ListItemAvatar>
+                                                            <HolidayPresenter holiday={h}/>
+                                                        </ListItem>
+                                                    ))
+                                                }
+                                            </List>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Container>

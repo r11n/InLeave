@@ -1,1 +1,1 @@
-= react_component('LeaveDashboard', {leaves: @leaves.present? ? attrize(@leaves) : [], active_id: params[:id], new: current_page?(controller: 'leaves', action: 'new')})
+= react_component('LeaveDashboard', {leaves: @leaves.present? ? attrize(@leaves) : [], active_id: params[:id], new: current_page?(controller: 'leaves', action: 'new'),accumulation: @accumulation, types: @types})

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# leaves controller
 class LeavesController < ApplicationController
   include LeavesHelper
   load_and_authorize_resource
@@ -85,6 +86,8 @@ class LeavesController < ApplicationController
 
   def load_leaves
     @leaves = current_user.leaves
+    @types = LeaveType.with_styles
+    @accumulation = current_user.supply_balance
   end
 
   def day_calc_params
@@ -94,7 +97,8 @@ class LeavesController < ApplicationController
   def leave_params
     date_wrap(
       params.require(:leave).permit(
-        :leave_type_id, :reason, :from_date, :end_date, :half
+        :leave_type_id, :reason, :from_date, :end_date, :half,
+        cc_list: []
       )
     )
   end

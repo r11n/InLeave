@@ -55,7 +55,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       :sign_up,
       keys: [
         :email, :password, :password_confirmation, :first_name, :last_name,
-        user_role_attributes: [:role_id]
+        :employee_id, user_role_attributes: [:role_id]
       ]
     )
   end

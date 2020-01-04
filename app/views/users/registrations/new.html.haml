@@ -14,9 +14,12 @@
             .input-field.col.s12.m6
               = f.label :last_name
               = f.text_field :last_name, autocomplete: "name"
-            .input-field.col.s12
+            .input-field.col.s12.m8
               = f.label :email
               = f.email_field :email, autocomplete: "email"
+            .input-field.col.s12.m4
+              = f.label :employee_id, 'Employee ID'
+              = f.text_field :employee_id, autocomplete: "number"
             .input-field.col.s12
               = f.label :password
               = f.password_field :password, autocomplete: "new-password"

@@ -7,12 +7,19 @@
           = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
             = render "users/shared/error_messages", resource: resource
             .row
-              .input-field.col.s12
+              .input-field.col.s12.m8
                 = f.email_field :email, autofocus: true, autocomplete: 'email'
                 = f.label :email
+              .input-field.col.s12.m4
+                = f.email_field :employee_id, autocomplete: 'number'
+                = f.label :employee_id, 'Employee ID'
               - if devise_mapping.confirmable? && resource.pending_reconfirmation?
                 %div
                   Currently waiting confirmation for: #{resource.unconfirmed_email}
+              .input-field.col.s12
+                = f.label :current_password
+                = f.password_field :current_password, autocomplete: "current-password"
+                %span.helper-text (we need your current password to confirm your changes)
               .input-field.col.s12
                 = f.label :password
                 = f.password_field :password, autocomplete: "new-password"
@@ -22,12 +29,8 @@
                     = @minimum_password_length
                     characters minimum
               .input-field.col.s12
+                = f.label :password_confirmation
                 = f.password_field :password_confirmation, autocomplete: "new-password"
-                = f.label :password_confirmations
-              .input-field.col.s12
-                = f.label :current_password
-                = f.password_field :current_password, autocomplete: "current-password"
-                %span.helper-text (we need your current password to confirm your changes)
               .col.s12.text-center
                 = f.submit "Update", class: 'waves-effect waves-light btn'
       .card-action

@@ -222,6 +222,16 @@ class UserForm extends React.Component {
                                         />
                                 </MuiPickersUtilsProvider>
                             </Grid>
+                            <Grid item sm={12} md={4}>
+                                <TextField
+                                    disabled={loading}
+                                    id="employee_id"
+                                    label="Employee ID"
+                                    fullWidth
+                                    defaultValue={user.employee_id}
+                                    onChange={this.propChange('employee_id')}
+                                />
+                            </Grid>
                         </Grid>
                     </form>
                 </DialogContent>

@@ -12,6 +12,7 @@ class Leave < ApplicationRecord
   validate :end_after_from
   validate :valid_days?
   validate :validate_half_day
+  after_commit :update_balances, on: [:update]
   scope :current_year, lambda {
     where(
       arel_table[:from_date].gteq(Time.zone.today.beginning_of_year).and(
@@ -100,6 +101,22 @@ class Leave < ApplicationRecord
     user.name
   end
 
+  def recently_approved?
+    %w[
+      applied re_applied manager_rejected hr_rejected
+    ].include?((audits.last.audited_changes['state'] || [])[0]) && (
+      manager_approved? || auto_approved? || hr_approved?
+    )
+  end
+
+  def recently_cancelled?
+    (
+      aasm.states.map(&:name) - %i[applied re_applied]
+    ).include?((audits.last.audited_changes['state'] || [])[0]) && (
+      cancelled? || manager_rejected? || hr_rejected?
+    )
+  end
+
   private
 
   def validate_half_day
@@ -155,5 +172,10 @@ class Leave < ApplicationRecord
 
   def not_responded?
     (created_at - Time.zone.now) >= 7.days
+  end
+
+  def update_balances
+    user.supply_balance.decreement(self) if recently_approved?
+    user.supply_balance.increement(self) if recently_cancelled?
   end
 end

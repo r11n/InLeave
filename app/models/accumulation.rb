@@ -2,6 +2,7 @@
 
 # for storing leave balances
 class Accumulation < ApplicationRecord
+  include BalanceBuilder
   belongs_to :user
   after_initialize :jsonize
 

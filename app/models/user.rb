@@ -19,6 +19,10 @@ class User < ApplicationRecord
           class_name: 'Accumulation',
           dependent: :destroy,
           inverse_of: :user
+  has_one :lastyear_balance, -> { where(year: Time.zone.today.year - 1) },
+          class_name: 'Accumulation',
+          dependent: :destroy,
+          inverse_of: :user
   has_many(
     :reporter_links, foreign_key: :manager_id,
                      class_name: 'Reporting',
@@ -36,7 +40,8 @@ class User < ApplicationRecord
     reject_if: ->(attributes) { attributes['role_id'].blank? },
     allow_destroy: true
   )
-  validates :email, presence: true, uniqueness: { case_sensitive: false }
+  validates :email, :employee_id, presence: true,
+                                  uniqueness: { case_sensitive: false }
   validates :first_name, :last_name, :joining_date, presence: true
   validate :role?
   after_create :create_reporting
@@ -64,6 +69,10 @@ class User < ApplicationRecord
 
   def manager?
     role.present? && role.name.downcase == 'manager'
+  end
+
+  def supply_balance
+    current_balance.presence || build_current_balance.forward_from_old_data
   end
 
   private

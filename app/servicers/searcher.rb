@@ -32,7 +32,7 @@ module Searcher
 
   def user_search(query)
     map_as_results(User.ransack(
-      first_name_or_last_name_or_email_cont_any: query
+      first_name_or_last_name_or_email_employee_id_cont_any: query
     ).result.limit(10))
   end
 

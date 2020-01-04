@@ -188,19 +188,6 @@ function TypeCard({type}) {
                     </Typography>
                 </FlexDiv>
                 <FlexDiv>
-                    <Typography color={typeVal.forwadable ? 'textPrimary' : 'textSecondary'} variant="body1" component="div">Forwardable Count:</Typography>
-                    <Typography
-                        color="primary"
-                        contentEditable={typeVal.forwadable}
-                        onBlur={blurred('forward_count')}
-                        onKeyUp={blurred('forward_count')}
-                        onPaste={blurred('forward_count')}
-                        variant="body1" component="div"
-                    >
-                        {typeVal.forward_count}
-                    </Typography>
-                </FlexDiv>
-                <FlexDiv>
                     {errorMessage && <Typography variant="body1" style={{color: 'red'}} dangerouslySetInnerHTML={{__html: errorMessage}}/>}
                 </FlexDiv>
             </CardContent>

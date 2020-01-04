@@ -155,3 +155,7 @@ export const leave_type_update = (id, props) => {
 export const leave_type_create = (props) => {
     return call.trigger(`/leave_types`, 'POST', props, csrf_token_hash())
 }
+
+export const get_balance = () => {
+    return call.trigger('/accumulations/balance.json', 'GET');
+}

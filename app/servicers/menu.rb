@@ -25,22 +25,23 @@ class Menu
     @generic ||= [
       { text: 'Apply for Leave', link: new_leave_path },
       { text: 'My Leaves', link: leaves_path },
-      { text: 'Calendar', link: root_path },
-      { text: 'Change Reporting', link: reportings_path }
+      { text: 'Calendar', link: root_path }
     ]
   end
 
   def manager
     @manager ||= team + [
       { text: 'Leave Requests', link: requests_leaves_path },
-      { text: 'Balances', link: users_path }
+      { text: 'Balances', link: accumulations_path },
+      { text: 'Team Management', link: reportings_path }
     ]
   end
 
   def team
     @team ||= [
       { text: 'Team', link: team_leaves_path },
-      { text: 'Leave Requests', link: requests_leaves_path }
+      { text: 'Leave Requests', link: requests_leaves_path },
+      { text: 'Team Management', link: reportings_path }
     ]
   end
 
@@ -48,8 +49,8 @@ class Menu
     @hr ||= [
       { text: 'User Management', link: users_path },
       { text: 'Holiday Management', link: holidays_path },
-      { text: 'Reporting', link: reportings_path },
-      { text: 'Leave Types', link: leave_types_path}
+      { text: 'Team Assignment', link: reportings_path },
+      { text: 'Leave Types', link: leave_types_path }
     ]
   end
 

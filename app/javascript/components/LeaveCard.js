@@ -119,7 +119,7 @@ class LeaveCard extends React.Component {
                         {this.rangeMaker(leave.from_date, leave.end_date)}
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary" component="div">
-                        <Chip color="primary" label={leave.state}/>
+                        <Chip color="primary" label={leave.state.split('_').join(' ')}/>
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
                         {leave.reason}

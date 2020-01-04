@@ -18,7 +18,7 @@ class Holiday < ApplicationRecord
           Time.zone.today.beginning_of_year..Time.zone.today.end_of_year
         ).and(arel_table[:multiple].in([false, nil]))
       )
-    )
+    ).order(:from_date)
   }
 
   scope :by_year, lambda { |year|
@@ -33,7 +33,7 @@ class Holiday < ApplicationRecord
         multiple: [nil, false],
         from_date: ("#{year}-01-01".."#{year}-12-31")
       )
-    )
+    ).order(:from_date)
   }
 
   def self.holiday?(date)

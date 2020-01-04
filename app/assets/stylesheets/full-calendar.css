@@ -1,5 +1,9 @@
 @charset "UTF-8";
-/* #3f51b5 */
+
+.turbolinks-progress-bar {
+    height: 5px;
+    background-color: green;
+}
 .fc-button:not(:disabled),
 .fc-event.fc-draggable,
 .fc-event[href],

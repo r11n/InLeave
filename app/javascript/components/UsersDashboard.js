@@ -43,7 +43,7 @@ export default function UsersDashboard(props) {
         if (!!props.active_id) {
             find_user(props.active_id)
         }
-    })
+    }, [users])
     const close = () => {
         setEditingId(null)
     }

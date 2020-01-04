@@ -3,6 +3,7 @@
 # for storing reporting manager
 class Reporting < ApplicationRecord
   include AASM
+  audited
   belongs_to :user
   belongs_to :manager,  class_name: 'User',
                         foreign_key: 'manager_id',
@@ -48,8 +49,10 @@ class Reporting < ApplicationRecord
       assigned << {
         id: man.id, name: man.name, dom_id: "assigned-#{man.id}",
         user_data: (
-          unlinked.select { |k| (k || [])[0] == man.id }[0] || []
-        )[1] || []
+          unlinked.select { |k| (k || [])[0] == man.id }.map do |o|
+            o[1]
+          end.flatten
+        ) || []
       }
     end
     list['assigned'] = assigned

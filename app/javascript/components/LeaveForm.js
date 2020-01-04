@@ -18,7 +18,8 @@ import DateRangePicker from '@wojtekmaj/react-daterange-picker/dist/entry.nostyl
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { DatePresenter } from './LeaveCard';
 import {DateRangeRounded} from '@material-ui/icons';
-
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import _ from 'lodash';
 class LeaveForm extends React.Component {
     constructor(props) {
         super(props)
@@ -31,7 +32,9 @@ class LeaveForm extends React.Component {
             loading: false,
             leave_types: [],
             multiple: !!(props.leave.from_date < (props.leave.end_date || new Date())),
-            half_day: !!props.leave.half
+            half_day: !!props.leave.half,
+            cc_list: props.leave.cc_list || [],
+            cc_search: ''
         }
     }
 
@@ -181,10 +184,31 @@ class LeaveForm extends React.Component {
         });
     }
 
+    ccSearch = (event) => {
+        const cc_search = event.target.value;
+        this.setState({cc_search});
+    }
+
+    addTerm = () => {
+        const cc_list = Array.from(new Set([...this.state.cc_list, this.state.cc_search]));
+        this.setState({cc_list});
+    }
+
+    returnCapture = (event) => {
+        if (event.keyCode !== 13 ) {
+            return
+        }
+        this.addTerm();
+    }
+
+    searchChange = (_event, cc_list) => { 
+        this.setState({leave: {...this.state.leave,cc_list}});
+    }
+
     render() {
         const {leave, classes, width, open} = this.props;
         const fullScreen = ['xs', 'sm'].includes(width);
-        const {error, errorMessage, loading, multiple, leave_types, half_day} = this.state;
+        const {error, errorMessage, loading, multiple, leave_types, half_day, cc_list} = this.state;
         const leaveVal = this.state.leave;
         const currentYear = (new Date()).getFullYear();
         const currentMonth = (new Date()).getMonth() + 1;
@@ -193,7 +217,7 @@ class LeaveForm extends React.Component {
                 fullWidth={true}
                 fullScreen={fullScreen}
                 maxWidth='md'
-                open={open}
+                open={!!open}
                 scroll={'paper'}
                 onClose={!loading ? this.formClose : null}
                 style={{minHeight: 480}}
@@ -302,23 +326,49 @@ class LeaveForm extends React.Component {
                                 </Typography>
                             </Grid>
                             <Grid item sm={12} md={6}>
-                                <FormControl fullWidth>
-                                    <InputLabel id="in-track-leave-type">Leave Type</InputLabel>
-                                    <Select
-                                        labelId='in-track-leave-type'
-                                        id='in-track-leave-type-selection'
-                                        defaultValue={leaveVal.leave_type_id || ''}
-                                        onChange={this.propChange('leave_type_id')}
-                                    >
-                                        {
-                                            leave_types.map(opt => (
-                                                <MenuItem key={`leavetype-${opt[0]}`} value={opt[0]}>
-                                                    {opt[1]}
-                                                </MenuItem>
-                                            ))
-                                        }
-                                    </Select>
-                                </FormControl>
+                                <FormGroup row>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="in-track-leave-type">Leave Type</InputLabel>
+                                        <Select
+                                            labelId='in-track-leave-type'
+                                            id='in-track-leave-type-selection'
+                                            defaultValue={leaveVal.leave_type_id || ''}
+                                            onChange={this.propChange('leave_type_id')}
+                                        >
+                                            {
+                                                leave_types.map(opt => (
+                                                    <MenuItem key={`leavetype-${opt[0]}`} value={opt[0]}>
+                                                        {opt[1]}
+                                                    </MenuItem>
+                                                ))
+                                            }
+                                        </Select>
+                                    </FormControl>
+                                </FormGroup>
+
+                                <FormGroup row style={{marginTop: 15}}>
+                                    <Autocomplete
+                                        multiple
+                                        id="cc_list"
+                                        size="small"
+                                        options={cc_list || []}
+                                        defaultValue={leaveVal.cc_list}
+                                        getOptionLabel={option => option}
+                                        onChange={this.searchChange}
+                                        autoSelect={true}
+                                        style={{width: '100%'}}
+                                        renderInput={params => (
+                                            <TextField
+                                                {...params}
+                                                variant="standard"
+                                                label="CC List"
+                                                fullWidth
+                                                onKeyUp={this.returnCapture}
+                                                onChange={this.ccSearch}
+                                            />
+                                        )}
+                                    />
+                                </FormGroup>
                             </Grid>
                         </Grid>
                     </form>

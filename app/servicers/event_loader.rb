@@ -23,7 +23,7 @@ module EventLoader
   end
 
   def holidays
-    Holiday.by_year(@year).map(&:as_event)
+    @holidays ||= Holiday.by_year(@year).map(&:as_event)
   end
 
   def manager_events

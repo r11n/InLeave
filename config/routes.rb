@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root 'dashboard#index'
   get '/year/:year', to: 'dashboard#index'
   post '/search', to: 'application#search'
+  # get '/balance', to: 'accumulations#balance'
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations',
@@ -37,6 +38,12 @@ Rails.application.routes.draw do
   resources :reportings, only: %i[index] do
     member do
       post :save
+    end
+  end
+
+  resources :accumulations, only: %i[index update] do
+    collection do
+      get :balance
     end
   end
 
