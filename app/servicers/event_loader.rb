@@ -3,6 +3,7 @@
 module EventLoader
   LEAVE_STATES ||= %w[
     manager_approved hr_approved auto_approved applied re_applied
+    cancel_requested
   ].freeze
   def year(year = Time.zone.today.year)
     @year = year

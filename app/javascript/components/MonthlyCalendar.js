@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import ListPlugin from '@fullcalendar/list';
 import { Card, CardContent, Chip, List, Avatar, ListSubheader, ListItem, ListItemAvatar, ListItemText, Typography } from '@material-ui/core';
-import { goto_calendar_year } from './utils/calls';
+import { goto_calendar_year, goto_requests_page } from './utils/calls';
 import styled from 'styled-components';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import { DatePresenter } from './LeaveCard';
@@ -66,7 +66,10 @@ const HolidayPresenter = ({holiday}) => {
 }
 export default class MonthlyCalendar extends React.Component {
     click = (info) => {
-        console.log(info);
+        info.jsEvent.preventDefault();
+        if (!['null', 'undefined', null, undefined, ''].includes(info.event.url) && this.props.clickable) {
+            window.open(info.event.url, '_blank')
+        }
     }
     curentYear = (new Date()).getFullYear();
     getMonth = (month) => {
@@ -168,10 +171,11 @@ export default class MonthlyCalendar extends React.Component {
                                             <List dense
                                                 aria-labelledby="holiday-header"
                                                 subheader={
-                                                    <ListSubheader component="div" id="holiday-header">
+                                                    <ListSubheader component="div" id="holiday-header" style={{backgroundColor: 'white'}}>
                                                         Holidays
                                                     </ListSubheader>
                                                 }
+                                                style={{maxHeight: 400, overflowY: 'scroll'}}
                                             >
                                                 {
                                                     holidays.map(h => (

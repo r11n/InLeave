@@ -4,14 +4,16 @@ import clsx from 'clsx';
 import styled from 'styled-components';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import _ from 'lodash';
+import { update_accumulation, unprocessed_reload } from './utils/calls';
+import { accumulation_wrap } from './utils/params';
+import MessageMake from './utils/message_make';
 const today = new Date();
 const date = today.getDate();
 const month = today.getMonth();
 const year = today.getFullYear();
 const ScrollContainer = styled.div`
-    width: 100%;
     display: flex;
-    overflow: auto;
+    overflow-x: scroll;
     justify-content: space-evenly;
 `;
 
@@ -52,12 +54,23 @@ const RoseBox = styled(TypeBox)`
     box-shadow:0 4px 20px 0 rgba(0,0,0,.14),0 7px 10px -5px rgba(233,30,99,.4);
 `;
 
+const BlueBox = styled(TypeBox)`
+    background-color: #2196F3;
+    box-shadow:0 4px 20px 0 rgba(0,0,0,.14),0 7px 10px -5px rgba(33, 150, 243,.4);
+`
+
+const TealBox = styled(TypeBox)`
+    background-color: #009688;
+    box-shadow:0 4px 20px 0 rgba(0,0,0,.14),0 7px 10px -5px rgba(0, 150, 136,.4);
+`
+
 const boxMap = {
     azure: AzureBox,
     green: GreenBox,
     orange: OrangeBox,
     red: RedBox,
     rose: RoseBox,
+    blue: BlueBox,
     default: TypeBox
 }
 
@@ -242,6 +255,7 @@ function ForwardEditable({data, types, update}) {
     const [old_data, setOldData] = useState(data.forward_data);
     const [forward_data, setForwardData] = useState(data.forward_data);
     const [dirty, setDirty] = useState(false);
+    const [error, setError] = useState(null);
     const change = (id, skip = true) => (event) => {
         if (skip) {
             return
@@ -258,6 +272,18 @@ function ForwardEditable({data, types, update}) {
                 [`${id}`]: val
             })
         }
+    }
+
+    const save = () => {
+        update_accumulation(data.id, accumulation_wrap({forward_data})).then(
+            (_res) => {
+                setDirty(false);
+                setError(null);
+            }, (err) => {
+                unprocessed_reload();
+                setError(new MessageMake(err).message);
+            }
+        )
     }
 
     useEffect(()=>{
@@ -277,6 +303,7 @@ function ForwardEditable({data, types, update}) {
                             <Box type={type.style_name} key={`generic-${type.id}-${index}`}>
                                 <BoxTitle>{type.name}</BoxTitle>
                                 <BoxData
+                                    suppressContentEditableWarning={true}
                                     contentEditable={type.forwadable}
                                     onBlur={change(type.id, !type.forwadable)}
                                     onKeyUp={change(type.id, !type.forwadable)}
@@ -289,7 +316,8 @@ function ForwardEditable({data, types, update}) {
                         ))
                 }
             </ScrollContainer>
-            {dirty && <div><Button color="primary" size="small">Save</Button></div>}
+            {error && <Typography component="p" variant="body2" style={{color: 'red'}}>{error}</Typography>}
+            {dirty && <div><Button color="primary" size="small" onClick={save}>Save</Button></div>}
         </React.Fragment>
     )
 }

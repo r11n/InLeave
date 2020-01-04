@@ -34,6 +34,10 @@ export default function LeaveTypeDashboard(props) {
     const create = (_event) => {
         setTypes([...types, emtType])
     }
+
+    const cancel = () => {
+        setTypes(types.slice(0, types.length - 1));
+    }
     return (
         <Container maxWidth="lg">
             <CssBaseline />
@@ -42,7 +46,7 @@ export default function LeaveTypeDashboard(props) {
                 {
                     types.map((type, index) => (
                         <Grid item key={index} sm={12} md={3}>
-                            <TypeCard type={type} />
+                            <TypeCard type={type} cancel={cancel}/>
                         </Grid>
                     ))
                 }
@@ -52,7 +56,7 @@ export default function LeaveTypeDashboard(props) {
 
 }
 
-function TypeCard({type}) {
+function TypeCard({type, cancel}) {
     const [name, setName] = useState(type.name);
     const [limit, setLimit] = useState(type.forward_count);
     const [forwadable, setForwadable] = useState(type.forwadable);
@@ -132,6 +136,7 @@ function TypeCard({type}) {
             <CardContent>
                 <Typography
                     color="primary"
+                    suppressContentEditableWarning={true}
                     contentEditable={true}
                     onBlur={blurred('name')}
                     onKeyUp={blurred('name')}
@@ -164,6 +169,7 @@ function TypeCard({type}) {
                 <FlexDiv style={{marginTop: 5}}>
                     <Typography variant="body1" component="div">Total:</Typography>
                     <Typography
+                        suppressContentEditableWarning={true}
                         color="primary"
                         contentEditable={true}
                         onBlur={blurred('limit')}
@@ -177,6 +183,7 @@ function TypeCard({type}) {
                 <FlexDiv>
                     <Typography color={typeVal.forwadable ? 'textPrimary' : 'textSecondary'} variant="body1" component="div">Forwardable Limit:</Typography>
                     <Typography
+                        suppressContentEditableWarning={true}
                         color="primary"
                         contentEditable={typeVal.forwadable}
                         onBlur={blurred('forward_limit')}
@@ -191,11 +198,10 @@ function TypeCard({type}) {
                     {errorMessage && <Typography variant="body1" style={{color: 'red'}} dangerouslySetInnerHTML={{__html: errorMessage}}/>}
                 </FlexDiv>
             </CardContent>
-            {
-                dirty && <CardActions>
-                    <Button color="primary" onClick={trigger(typeVal.id ? 'update' : 'create')}>{typeVal.id ? 'Update' : 'Create'}</Button>
-                </CardActions>
-            }
+            <CardActions>
+                {dirty && <Button color="primary" onClick={trigger(typeVal.id ? 'update' : 'create')}>{typeVal.id ? 'Update' : 'Create'}</Button>}
+                {!typeVal.id && <Button color="primary" onClick={cancel}>Cancel</Button>}
+            </CardActions>
         </Card>
     )
 } 

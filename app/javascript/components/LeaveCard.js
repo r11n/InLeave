@@ -5,10 +5,11 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import { IconButton, Chip, Avatar } from '@material-ui/core';
+import { IconButton, Chip, Avatar, Tooltip } from '@material-ui/core';
 import LeaveForm from './LeaveForm';
 import styled from 'styled-components';
 import { save_leave } from './utils/calls';
+import InfoIcon from '@material-ui/icons/Info';
 const styles = theme => ({
     card: {
         minWidth: 275,
@@ -105,7 +106,7 @@ class LeaveCard extends React.Component {
     }
 
     cancelled = () => {
-        return this.state.leave.state === 'cancelled'
+        return ['cancelled', 'cancel_requested'].includes(this.state.leave.state)
     }
 
     render() {
@@ -115,19 +116,26 @@ class LeaveCard extends React.Component {
         return (
             <Card className={classes.card} id={`in-track-leave-${this.props.leave.id}`}>
                 <CardContent>
-                    <Typography variant="h6" component="h5">
+                    <Typography variant="body1" component="h5">
                         {this.rangeMaker(leave.from_date, leave.end_date)}
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary" component="div">
                         <Chip color="primary" label={leave.state.split('_').join(' ')}/>
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
-                        {leave.reason}
+                        {leave.reason || leave.day_collection.join(', ')}
                     </Typography>
                 </CardContent>
                 <CardActions>
                     <Button disabled={this.disabled(leave.from_date)} size="small" color="primary" onClick={this.toggleEdit}>Edit</Button>
                     <Button disabled={this.disabled(leave.from_date) || this.cancelled()} size="small" color="primary" onClick={this.cancel}>Cancel</Button>
+                    {
+                        leave.note && <Tooltip title={leave.note}>
+                            <IconButton size="small">
+                                <InfoIcon />
+                            </IconButton>
+                        </Tooltip>
+                    }
                 </CardActions>
                 {edit && <LeaveForm leave={leave} open={edit} success={this.updateLeave} close={this.toggleEdit}/>}
             </Card>

@@ -29,6 +29,13 @@ class ApplicationController < ActionController::Base
   private
 
   def deny_access
-    render '/shared/not_found', layout: 'blank', status: :not_found
+    respond_to do |format|
+      format.html do
+        render '/shared/not_found', layout: 'blank', status: :not_found
+      end
+      format.json do
+        render json: { message: 'page not found', status: :not_found }
+      end
+    end
   end
 end

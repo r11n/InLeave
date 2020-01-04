@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root 'dashboard#index'
   get '/year/:year', to: 'dashboard#index'
   post '/search', to: 'application#search'
+  get '/team', to: 'dashboard#team', as: :team
   # get '/balance', to: 'accumulations#balance'
   devise_for :users, controllers: {
     sessions: 'users/sessions',
@@ -20,7 +21,6 @@ Rails.application.routes.draw do
 
   resources :leaves, except: %i[destory edit] do
     collection do
-      get :team
       get :requests
       post :effective_days
     end

@@ -42,6 +42,7 @@ class Leave < ApplicationRecord
     state :hr_rejected
     state :auto_approved
     state :re_applied
+    state :cancel_requested
 
     event :manager_approve do
       transitions from: %i[applied re_applied manager_rejected], to: :manager_approved
@@ -53,7 +54,10 @@ class Leave < ApplicationRecord
       transitions from: %i[applied re_applied hr_rejected], to: :hr_approved
     end
     event :cancel do
-      transitions from: %i[applied re_applied hr_approved manager_approved auto_approved], to: :cancelled
+      transitions from: %i[applied re_applied hr_approved manager_approved auto_approved], to: :cancel_requested
+    end
+    event :approve_cancel do
+      transitions from: %i[cancel_requested], to: :cancelled
     end
     event :manager_reject do
       transitions from: %i[applied re_applied hr_approved manager_approved auto_approved], to: :manager_rejected
@@ -61,7 +65,6 @@ class Leave < ApplicationRecord
     event :hr_reject do
       transitions from: %i[applied re_applied hr_approved manager_approved auto_approved], to: :hr_rejected
     end
-
     event :re_apply do
       transitions from: %i[cancelled manager_rejected hr_rejected], to: :re_applied
     end
@@ -79,13 +82,13 @@ class Leave < ApplicationRecord
 
   def as_event
     {
-      id: id,
-      title: title,
+      id: id, title: title,
       start: "#{day_collection[0]}T00:00:00",
-      end: event_end,
-      description: reason,
+      end: event_end, description: reason,
       className: leave_type.to_style,
       eventColor: leave_type.to_color,
+      state: state,
+      url: routable? || nil,
       allDay: false
     }
   end
@@ -111,13 +114,21 @@ class Leave < ApplicationRecord
 
   def recently_cancelled?
     (
-      aasm.states.map(&:name) - %i[applied re_applied]
+      aasm.states.map(&:name).map(&:to_s) - %w[applied re_applied]
     ).include?((audits.last.audited_changes['state'] || [])[0]) && (
       cancelled? || manager_rejected? || hr_rejected?
     )
   end
 
   private
+
+  def routable?
+    %w[
+      applied re_applied cancel_requested auto_approved
+    ].include?(state) && Rails.application.routes.url_helpers.requests_leaves_path(
+      leave_id: id
+    )
+  end
 
   def validate_half_day
     return if (half.present? && HALF_DAY_STATES.include?(half)) || half.blank?

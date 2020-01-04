@@ -11,6 +11,8 @@ class LeaveType < ApplicationRecord
             numericality: { greater_than: 0 }, if: :forward?
   before_validation :trim_name
 
+  default_scope { order(:id) }
+
   def self.with_styles
     all.map do |type|
       type.attributes.tap do |val|
@@ -38,6 +40,7 @@ class LeaveType < ApplicationRecord
     return 'red' if name.downcase.include?('sick')
     return 'orange' if name.downcase.include?('work')
     return 'rose' if name.downcase.include?('annual')
+    return 'blue' if name.downcase.include?('maternity')
 
     'default'
   end

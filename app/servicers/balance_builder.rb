@@ -16,7 +16,7 @@ module BalanceBuilder
     forward_data_import
     balance_data_import
     self.imported = true
-    save
+    save && self
   end
 
   def decreement(leave)
@@ -30,7 +30,7 @@ module BalanceBuilder
     save
   end
 
-  def increemnet(leave)
+  def increement(leave)
     type = leave.leave_type
     uid = type.id.to_s
     if type.monthly?
@@ -41,7 +41,21 @@ module BalanceBuilder
     save
   end
 
+  def over_limit?(type_id, val)
+    return unless val > type(type_id).forward_limit.to_i
+
+    errors.add(
+      :forward_data,
+      "`#{type(type_id).name}` has maximum forward limit "\
+      "of `#{type(type_id).forward_limit}`"
+    )
+  end
+
   private
+
+  def type(id)
+    types.select { |i| i.id == id }[0]
+  end
 
   def forward_data_import
     types.select(&:forwadable).each do |type|

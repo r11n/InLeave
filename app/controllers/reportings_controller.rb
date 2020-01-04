@@ -6,7 +6,6 @@ class ReportingsController < ApplicationController
   def index
     @reportings = Reporting.hr_list if current_user.hr? || current_user.admin?
     @reportings = Reporting.manager_list(current_user) if current_user.manager?
-    @reporting = Reporting.find_by(user: current_user)
   end
 
   def save

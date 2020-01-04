@@ -1,1 +1,1 @@
-= react_component('MonthlyCalendar', events: @events, year: params[:year] || Time.zone.today.year, month: params[:month], year_range: holiday_range, holidays: @holidays)
+= react_component('MonthlyCalendar', events: @events, year: params[:year] || Time.zone.today.year, month: params[:month], year_range: holiday_range, holidays: @holidays, clickable: current_user.manager? || current_user.admin?)

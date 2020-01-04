@@ -54,14 +54,11 @@ class LeavesController < ApplicationController
     render json: { day_collection: days, effective_days: days.size }
   end
 
-  def team
-  end
-
   def requests
-    @leaves = Leave.includes(user: :reporting).where(
+    @leaves = Leave.includes(:leave_type, user: :reporting).where(
       reportings: { manager_id: current_user.id },
-      state: %w[applied re_applied]
-    )
+      state: %w[applied re_applied cancel_requested auto_approved]
+    ).order(:from_date)
     respond_to do |format|
       format.html { render :requests }
       format.json { render json: present_to_manager(@leaves) }
@@ -85,7 +82,7 @@ class LeavesController < ApplicationController
   end
 
   def load_leaves
-    @leaves = current_user.leaves
+    @leaves = current_user.leaves.order(:from_date)
     @types = LeaveType.with_styles
     @accumulation = current_user.supply_balance
   end
@@ -108,6 +105,7 @@ class LeavesController < ApplicationController
       raise ArgumentError, 'Requested change is not authorized'
     end
 
+    @leave.note = params[:note] if params[:note].present?
     @leave.send(params[:destination])
     @leave.save
   end

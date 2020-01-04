@@ -16,7 +16,7 @@ class Ability
   def hr
     can(
       :manage,
-      [User, Leave, Holiday, Reporting, LeaveType, Accumulation, Forward]
+      [User, Leave, Holiday, Reporting, LeaveType, Accumulation]
     )
   end
 
@@ -26,12 +26,14 @@ class Ability
 
   def manager
     can :manage, [Leave, Reporting]
-    can :read, [Holiday, LeaveType, Accumulation, Forward]
+    can :read, [Holiday, LeaveType]
+    can :read, [Accumulation], user_id: [user.id, *user.team_members.ids]
+    can :read, [user], id: [user.id, *user.team_members.ids]
   end
 
   def employee
-    can :manage, [Leave, Reporting], user_id: user.id
+    can :manage, [Leave], user_id: user.id
     can :read, [Holiday, LeaveType]
-    can :read, [Accumulation, Forward], user_id: user.id
+    can :read, [Accumulation], user_id: user.id
   end
 end

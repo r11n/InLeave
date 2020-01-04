@@ -18,7 +18,12 @@ export const leave_wrap = (props) => {
     const params =generic_wrap('leave', props);
     delete params.day_collection;
     delete params.effective_days;
+    params.note = null;
     return params
+}
+
+export const accumulation_wrap = (props) => {
+    return generic_wrap('accumulation', props);
 }
 
 export const leave_type_wrap = (props) => {

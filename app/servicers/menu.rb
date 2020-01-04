@@ -12,7 +12,7 @@ class Menu
   end
 
   def hr_menus
-    generic + divider + manager + divider + hr - team
+    generic + divider + hr
   end
 
   def admin_menus
@@ -32,14 +32,13 @@ class Menu
   def manager
     @manager ||= team + [
       { text: 'Leave Requests', link: requests_leaves_path },
-      { text: 'Balances', link: accumulations_path },
       { text: 'Team Management', link: reportings_path }
     ]
   end
 
   def team
     @team ||= [
-      { text: 'Team', link: team_leaves_path },
+      { text: 'Team', link: team_path },
       { text: 'Leave Requests', link: requests_leaves_path },
       { text: 'Team Management', link: reportings_path }
     ]
@@ -47,6 +46,7 @@ class Menu
 
   def hr
     @hr ||= [
+      { text: 'Balances', link: accumulations_path },
       { text: 'User Management', link: users_path },
       { text: 'Holiday Management', link: holidays_path },
       { text: 'Team Assignment', link: reportings_path },

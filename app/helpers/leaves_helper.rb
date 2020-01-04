@@ -20,6 +20,7 @@ module LeavesHelper
       leave[:name] = l.user.name
       leave[:email] = l.user.email
       leave[:events] = l.aasm.events.map(&:name) - NON_MANAGER_EVENTS
+      leave[:type] = l.leave_type.name
       leave
     end
   end

@@ -129,6 +129,10 @@ export const goto_calendar_year = (year) => {
     window.location = `/?year=${year}`
 }
 
+export const goto_requests_page = (id) => {
+    window.location = `/leaves/requests/?leave_id=${id}`
+}
+
 // search
 export const search = (props) => {
     return call.trigger(SEARCH, 'POST',props, csrf_token_hash())
@@ -138,8 +142,8 @@ export const save_reporting = (id, destination) => {
     return call.trigger(`/reportings/${id}/save`, 'POST',{destination}, csrf_token_hash());
 }
 
-export const save_leave = (id, destination) => {
-    return call.trigger(`/leaves/${id}/save`, 'POST',{destination}, csrf_token_hash());
+export const save_leave = (id, destination, note) => {
+    return call.trigger(`/leaves/${id}/save`, 'POST',{destination, note}, csrf_token_hash());
 }
 
 export const reload_requests = () => {
@@ -156,6 +160,10 @@ export const leave_type_create = (props) => {
     return call.trigger(`/leave_types`, 'POST', props, csrf_token_hash())
 }
 
-export const get_balance = () => {
-    return call.trigger('/accumulations/balance.json', 'GET');
+export const get_balance = (user_id) => {
+    return call.trigger(`/accumulations/balance.json${user_id ? '?user_id=' + user_id : ''}`, 'GET');
+}
+
+export const update_accumulation = (id, props) => {
+    return call.trigger(`/accumulations/${id}.json`, 'PATCH', props, csrf_token_hash());
 }

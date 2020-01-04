@@ -1,1 +1,1 @@
-= react_component('LeaveRequests', {leaves: @leaves.present? ? present_to_manager(@leaves) : [], role: current_user.role})
+= react_component('LeaveRequests', leaves: @leaves.present? ? present_to_manager(@leaves) : [], role: current_user.role, finding_id: params[:leave_id])

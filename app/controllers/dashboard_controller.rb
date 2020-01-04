@@ -6,4 +6,7 @@ class DashboardController < ApplicationController
     year(params[:year]) if params[:year].present? && params[:year].to_i > 2010
     load_events
   end
+
+  def team
+  end
 end
