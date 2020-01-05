@@ -11,6 +11,17 @@ module JsonExtender
     where(["#{table_name}.#{column_name} ?& ARRAY[:vals]", { vals: args }])
   end
 
+  def matching_range(column_name, as_alias, *args)
+    args = args.map(&:to_s) unless [Integer, Float].include?(args[0].class)
+    column = "ARRAY(select jsonb_array_elements_text(#{table_name}"\
+             ".#{column_name}))"
+    select(
+      "#{table_name}.*,ARRAY(select unnest(#{column}) intersect select unnest"\
+      "(#{quoted_build(args, prefix: "ARRAY[\'", suffix: "\']", join: "','").expr}))"\
+      "as #{as_alias || 'range'}"
+    ).where(["#{table_name}.#{column_name} ?| ARRAY[:vals]", { vals: args }]).reorder(nil)
+  end
+
   def array_contains_any(column_name, *args)
     args = args.map(&:to_s) unless [Integer, Float].include?(args[0].class)
     where(["#{table_name}.#{column_name} ?| ARRAY[:vals]", { vals: args }])
@@ -53,6 +64,8 @@ module JsonExtender
   end
 
   def quoted_build(arr, **opt)
-    Arel::Nodes.build_quoted("#{opt[:prefix]}#{arr.join(', ')}#{opt[:suffix]}")
+    Arel::Nodes.build_quoted(
+      "#{opt[:prefix]}#{arr.join(opt[:join] || ', ')}#{opt[:suffix]}"
+    )
   end
 end

@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class Leave < ApplicationRecord
-  HALF_DAY_STATES ||= %w[first second].freeze
+  extend CsvExporter
   include AASM
+  HALF_DAY_STATES ||= %w[first second].freeze
   audited
+  csv_attributes('title', 'day_collection', 'effective_days')
   belongs_to :user
   belongs_to :leave_type
   before_save :save_effective_days
@@ -21,6 +23,10 @@ class Leave < ApplicationRecord
         arel_table[:end_date].lteq("#{year}-12-31")
       )
     ).or(where(from_date: ("#{year}-01-01".."#{year}-12-31")))
+  }
+
+  scope :with_range_dates, lambda { |*args|
+    with_range_days(:day_collection, *args)
   }
   # states
   aasm column: 'state' do
@@ -108,6 +114,10 @@ class Leave < ApplicationRecord
     ).include?((audits.last.audited_changes['state'] || [])[0]) && (
       cancelled? || manager_rejected? || hr_rejected?
     )
+  end
+
+  def type_day
+    "#{(half.presence || 'Full')} #{half.present? ? 'half' : ''} Day"
   end
 
   private

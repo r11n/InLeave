@@ -6,6 +6,10 @@ Date.class_eval do
   define_method('holiday?') do
     Holiday.holiday?(self)
   end
+
+  define_method('month_name') do
+    self.strftime('%B')
+  end
 end
 
 Time.class_eval do

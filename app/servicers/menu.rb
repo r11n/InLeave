@@ -50,7 +50,8 @@ class Menu
       { text: 'User Management', link: users_path },
       { text: 'Holiday Management', link: holidays_path },
       { text: 'Team Assignment', link: reportings_path },
-      { text: 'Leave Types', link: leave_types_path }
+      { text: 'Leave Types', link: leave_types_path },
+      { text: 'Reports', link: reports_path }
     ]
   end
 

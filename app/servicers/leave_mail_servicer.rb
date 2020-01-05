@@ -12,6 +12,7 @@ module LeaveMailServicer
   end
   SUBJECT_PROCS = {
     applied: ->(l) { "#{l.user.name} applied for leave" },
+    re_applied: ->(l) { "#{l.user.name} re applied for leave" },
     auto_approved: CPROC,
     cancel_requested: ->(l) { "#{l.user.name} requested Leave cancellation" },
     cancelled: CPROC,

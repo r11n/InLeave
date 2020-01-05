@@ -2,10 +2,12 @@
 
 # user model
 class User < ApplicationRecord
+  extend CsvExporter
   SERIALIZER_EXCEPTIONS = %w[
     encrypted_password created_at updated_at reset_password_token
     reset_password_sent_at remember_created_at
   ].freeze
+  csv_attributes('employee_id', 'name', 'email', 'current_leaves.count', 'role.name')
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,

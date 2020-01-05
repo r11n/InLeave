@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get '/year/:year', to: 'dashboard#index'
   post '/search', to: 'application#search'
   get '/team', to: 'dashboard#team', as: :team
+  get 'reports/(:type)', to: 'dashboard#reports', as: :reports
   # get '/balance', to: 'accumulations#balance'
   devise_for :users, controllers: {
     sessions: 'users/sessions',
