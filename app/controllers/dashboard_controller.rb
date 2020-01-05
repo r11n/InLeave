@@ -8,5 +8,7 @@ class DashboardController < ApplicationController
   end
 
   def team
+    restrict_employee
+    @users = User.make_for_manager(current_user)
   end
 end

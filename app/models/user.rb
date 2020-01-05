@@ -14,6 +14,8 @@ class User < ApplicationRecord
   has_one :role, through: :user_role
   has_one :reporting, dependent: :destroy
   has_many :leaves, dependent: :destroy
+  has_many :current_leaves, -> { current_year.order(:from_date) },
+           class_name: 'Leave', inverse_of: :user
   has_many :accumulations, dependent: :destroy
   has_one :current_balance, -> { where(year: Time.zone.today.year) },
           class_name: 'Accumulation',
@@ -71,8 +73,26 @@ class User < ApplicationRecord
     role.present? && role.name.downcase == 'manager'
   end
 
+  def dummy?
+    role.present? && role.name.downcase == 'dummy'
+  end
+
   def supply_balance
     current_balance.presence || build_current_balance.forward_from_old_data
+  end
+
+  def self.make_for_manager(manager)
+    {
+      types: LeaveType.with_styles,
+      users: includes(
+        :current_balance, :current_leaves, :reporting
+      ).where(reportings: { manager_id: manager.id }).map do |user|
+        {
+          name: user.name, email: user.email,
+          leaves: user.current_leaves, accumulation: user.supply_balance
+        }
+      end
+    }
   end
 
   private

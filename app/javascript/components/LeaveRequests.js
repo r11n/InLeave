@@ -122,7 +122,7 @@ export default function LeaveRequests(props) {
                                             </TableCell>
                                             <TableCell>{dayCount(leave.effective_days, leave.half)}: {rangeMaker(leave.from_date, leave.end_date)}</TableCell>
                                             <TableCell>
-                                                <TextField value={leave.note || ''} onChange={saveNote(index)} fullWidth label="Note" multiline rows={1} rowsMax={3}/>
+                                                <TextField defaultValue={leave.note || ''} onChange={saveNote(index)} fullWidth label="Note" multiline rows={1} rowsMax={3}/>
                                             </TableCell>
                                             <TableCell>
                                                 {

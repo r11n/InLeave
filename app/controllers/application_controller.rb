@@ -26,6 +26,24 @@ class ApplicationController < ActionController::Base
     params
   end
 
+  def restrict_employee
+    restrict_dummy
+    can_canize if current_user.employee?
+  end
+
+  def restrict_manager
+    restrict_employee
+    can_canize if current_user.manager?
+  end
+
+  def restrict_dummy
+    can_canize if current_user.dummy?
+  end
+
+  def can_canize
+    raise CanCan::AccessDenied
+  end
+
   private
 
   def deny_access

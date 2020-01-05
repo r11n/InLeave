@@ -13,18 +13,8 @@ class Leave < ApplicationRecord
   validate :valid_days?
   validate :validate_half_day
   after_commit :update_balances, on: [:update]
-  scope :current_year, lambda {
-    where(
-      arel_table[:from_date].gteq(Time.zone.today.beginning_of_year).and(
-        arel_table[:end_date].lteq(Time.zone.today.end_of_year)
-      ).and(arel_table[:multiple].eq(true)).or(
-        arel_table[:from_date].between(
-          Time.zone.today.beginning_of_year..Time.zone.today.end_of_year
-        ).and(arel_table[:multiple].in([false, nil]))
-      )
-    )
-  }
-
+  after_commit :notify_users
+  scope :current_year, -> { by_year(Time.zone.today.year) }
   scope :by_year, lambda { |year|
     where(
       arel_table[:from_date].gteq("#{year}-01-01").and(
@@ -188,5 +178,9 @@ class Leave < ApplicationRecord
   def update_balances
     user.supply_balance.decreement(self) if recently_approved?
     user.supply_balance.increement(self) if recently_cancelled?
+  end
+
+  def notify_users
+    NotificationWorker.perform_async(id)
   end
 end

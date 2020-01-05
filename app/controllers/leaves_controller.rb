@@ -112,5 +112,6 @@ class LeavesController < ApplicationController
 
   def handle_leave_state
     @leave.state = 're_applied' if @leave.state != 'applied'
+    @leave.note = nil
   end
 end

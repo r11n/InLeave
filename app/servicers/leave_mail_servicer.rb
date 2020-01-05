@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
+# for building mail content
 module LeaveMailServicer
+  attr_accessor :leave, :mailer
   CPROC = lambda do |l|
-    if l.auto_approved?
+    if l.auto_approved? || l.cancelled?
       "leave request was #{l.state.sub('_', ' ')}"
     else
       "#{l.state.sub('_', ' ')} leave request"
@@ -11,7 +13,8 @@ module LeaveMailServicer
   SUBJECT_PROCS = {
     applied: ->(l) { "#{l.user.name} applied for leave" },
     auto_approved: CPROC,
-    cancelled: ->(l) { "#{l.user.name} cancelled leave request" },
+    cancel_requested: ->(l) { "#{l.user.name} requested Leave cancellation" },
+    cancelled: CPROC,
     hr_approved: CPROC,
     hr_rejected: CPROC,
     manager_approved: CPROC,
@@ -19,23 +22,28 @@ module LeaveMailServicer
   }.freeze
 
   def build_mail(leave)
-    to = []
-    cc = [hr]
-    to = if leave.applied? || leave.cancelled?
-           [leave.user.manager]
-         elsif leave.auto_approved?
-           [leave.user, leave.user.manager]
-         else
-           [leave.user]
-         end
+    @leave = leave
+    to = receivers
+    cc = [*hr, *(leave.cc_list || [])].uniq
     @mailer = Mailer.new(
-      to, subject_builder(leave), content_builder(leave),
+      to, subject_builder(leave), content_builder(leave).content,
       cc: cc
     )
   end
 
+  def receivers
+    to = if leave.applied? || leave.cancel_requested?
+           [leave.user.manager&.email].reject(&:nil?).presence || hr
+         elsif leave.auto_approved?
+           [leave.user.email, leave.user.manager&.email]
+         else
+           [leave.user.email]
+         end
+    to
+  end
+
   def hr
-    @hr ||= User.joins(:role).where(roles: { name: 'hr' }).first
+    @hr ||= User.joins(:role).where(roles: { name: 'hr' }).pluck(:email)
   end
 
   def subject_builder(leave)
