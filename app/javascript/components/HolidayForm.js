@@ -38,9 +38,9 @@ class HolidayForm extends React.Component {
     }
 
     toggleDatePick = (_event) => {
-        const {multiple} = this.state
+        const {multiple, holiday} = this.state
         const end_date = multiple ? null : new Date();
-        this.setState({multiple: !multiple, holiday: {end_date}});
+        this.setState({multiple: !multiple, holiday: {...holiday,end_date}});
     }
 
     formSave = () => {
@@ -198,7 +198,7 @@ class HolidayForm extends React.Component {
                                             value={holidayVal.from_date}
                                             onChange={this.singlePick}
                                             animateYearScrolling
-                                            disabled={loading || this.today >= holidayVal.from_date}
+                                            disabled={loading}
                                             format="d MMM, Y"
                                             disablePast
                                         />

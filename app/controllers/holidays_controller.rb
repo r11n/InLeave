@@ -54,9 +54,6 @@ class HolidaysController < ApplicationController
 
   def load_holidays
     @holidays = Holiday.by_year(params[:year] || Time.zone.now.year)
-    @range = (
-      Holiday.minimum(:from_date).year..Holiday.maximum(:from_date).year
-    ).to_a
   end
 
   def holiday_params

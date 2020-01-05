@@ -7,7 +7,7 @@ class LeaveType < ApplicationRecord
   validates :name, presence: true, uniqueness: { case_sensitive: false }
   validates :forward_limit, presence: true, if: :forward?
   validates :limit, numericality: { greater_than: 0 }
-  validates :forward_limit, :forward_count,
+  validates :forward_limit,
             numericality: { greater_than: 0 }, if: :forward?
   before_validation :trim_name
 

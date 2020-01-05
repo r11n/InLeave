@@ -109,7 +109,7 @@ module LeaveMailServicer
     end
 
     def utc_parser(date, time)
-      Time.parse.utc("#{date} #{time} +5:30").strftime('%Y%m%dT%H%I%MZ')
+      Time.parse("#{date} #{time} +5:30").utc.strftime('%Y%m%dT%H%M%SZ')
     end
   end
 end

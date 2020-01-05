@@ -27,7 +27,7 @@ export default function LeaveTypeDashboard(props) {
         name: 'Leave Type Name',
         limit: 0,
         forwadable: false,
-        forward_limit: null,
+        forward_limit: 0,
         forward_count: null,
         counting_type: 'yearly'
     }

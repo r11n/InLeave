@@ -11,7 +11,7 @@ module BalanceBuilder
   end
 
   def forward_from_old_data
-    return if imported
+    return if imported || types.blank?
 
     forward_data_import
     balance_data_import

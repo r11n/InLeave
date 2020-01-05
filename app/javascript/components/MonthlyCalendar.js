@@ -30,7 +30,7 @@ const leaveMap = [{
     color: "red"
 }, {
     name: "Maternity Leave",
-    color: "default"
+    color: "blue"
 }, {
     name: "Work From Home",
     color: "orange"

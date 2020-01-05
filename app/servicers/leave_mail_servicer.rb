@@ -25,7 +25,7 @@ module LeaveMailServicer
   def build_mail(leave)
     @leave = leave
     to = receivers
-    cc = [*hr, *(leave.cc_list || [])].uniq
+    cc = [*hr, *(leave.cc_list || [])].uniq - to
     @mailer = Mailer.new(
       to, subject_builder(leave), content_builder(leave).content,
       cc: cc

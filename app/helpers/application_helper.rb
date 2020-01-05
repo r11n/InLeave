@@ -23,6 +23,8 @@ module ApplicationHelper
   end
 
   def holiday_range
+    return [Time.zone.today.year] if Holiday.minimum(:from_date).blank?
+
     (Holiday.minimum(:from_date).year..Holiday.maximum(:from_date).year).to_a
   end
 end
