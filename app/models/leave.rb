@@ -169,6 +169,9 @@ class Leave < ApplicationRecord
 
   def valid_days?
     errors.add(:dates, 'Atleast one day must not be a holiday') if days.blank?
+    return if from_date > Time.zone.today - 2.months
+
+    errors.add(:from_date, 'Can not apply leave older than 2 month')
   end
 
   def save_effective_days

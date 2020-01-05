@@ -210,8 +210,10 @@ class LeaveForm extends React.Component {
         const fullScreen = ['xs', 'sm'].includes(width);
         const {error, errorMessage, loading, multiple, leave_types, half_day, cc_list} = this.state;
         const leaveVal = this.state.leave;
-        const currentYear = (new Date()).getFullYear();
-        const currentMonth = (new Date()).getMonth() + 1;
+        const today = new Date();
+        const currentYear = (today).getFullYear();
+        const currentMonth = (today).getMonth() + 1;
+        const currentDay = today.getDate();
         return (
             <Dialog
                 fullWidth={true}
@@ -257,6 +259,7 @@ class LeaveForm extends React.Component {
                                             onChange={this.singlePick}
                                             animateYearScrolling
                                             disabled={loading}
+                                            minDate={new Date(`${currentYear}-${currentMonth - 1}-1`)}
                                         />
                                     </MuiPickersUtilsProvider>
                                 }
@@ -271,7 +274,7 @@ class LeaveForm extends React.Component {
                                             [
                                                 leaveVal.from_date,
                                                 leaveVal.end_date
-                                            ].map(d => new Date(d || `${currentYear}-${currentMonth}-30`))}
+                                            ].map(d => new Date(d || `${currentYear}-${currentMonth}-${currentDay}`))}
                                     />
 
                                 }

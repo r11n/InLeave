@@ -54,6 +54,10 @@ export const csrf_token_hash = () => {
     } : {}
 }
 
+export const CSVstream = () => {
+    return { 'Content-type': 'application/csv'}
+}
+
 export const call = new XhrMaker();
 
 export const logout = () => {
