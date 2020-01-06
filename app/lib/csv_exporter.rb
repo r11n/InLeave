@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_dependency 'csv'
-# builds to_csv method for given model
+# builds csv export methods for given model
 module CsvExporter
   def csv_attributes(*args)
     define_nested_link
