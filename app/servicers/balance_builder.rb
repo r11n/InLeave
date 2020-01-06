@@ -23,7 +23,7 @@ module BalanceBuilder
     type = leave.leave_type
     uid = type.id.to_s
     if type.monthly?
-      balance_data[uid][leave.from_date.month - 1] -= leave.effective_days
+      balance_data[uid][leave.from_date.month - 1][1] += leave.effective_days
     else
       balance_data[uid] -= leave.effective_days
     end
@@ -57,6 +57,7 @@ module BalanceBuilder
     types.select { |i| i.id == id }[0]
   end
 
+  # private_method: calculates forwardable leave data
   def forward_data_import
     types.select(&:forwadable).each do |type|
       uid = type.id.to_s
